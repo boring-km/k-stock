@@ -20,7 +20,7 @@ import javax.annotation.Resource
 class AOPLogger {
     val logger: Logger = LoggerFactory.getLogger(AOPLogger::class.java)
 
-    @Resource
+//    @Resource
     lateinit var stockCacheRepository: StockCacheRepository
 
     @Before("execution(* study.kstock.stockcore.model.Stock*.get*(..))")
@@ -32,12 +32,15 @@ class AOPLogger {
         for (i in 0 until method.parameterCount) {
             calledMethodString += method.parameters[i].name + "=" + args[i] + ", "
         }
+        if (calledMethodString.isEmpty()) {
+            calledMethodString = "없음  "
+        }
         logger.info("[StockService]" +
                 " calledMethod: ${method.name}(" +
                 "${calledMethodString.substring(0, calledMethodString.length-2)})")
     }
 
-    @AfterReturning(value= "execution(* study.kstock.stockcore.model.Stock*.get*(..))", returning = "stockMarket")
+//    @AfterReturning(value= "execution(* study.kstock.stockcore.model.Stock*.get*(..))", returning = "stockMarket")
     fun after(joinPoint: JoinPoint, stockMarket: StockMarket) {
         val now = LocalTime.now().toString()
         stockCacheRepository.save(StockCache(now, stockMarket))
