@@ -18,7 +18,7 @@ class StockServiceTest {
     @Test
     internal fun 모든_도시의_거래소를_가져오면_저장된_데이터가_있다() {
         val allMarketList = stockService.getMarketList()
-        logger.info("allMarketList size", allMarketList.size)
+        logger.info("allMarketList size: ${allMarketList.size}")
         assertThat(allMarketList).isNotEmpty
     }
 }

@@ -1,5 +1,6 @@
 package study.kstock.stockcore.model
 
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import javax.annotation.Resource
 
@@ -15,6 +16,7 @@ class StockService {
         }
     }
 
+    @Cacheable("getMarketList")
     fun getMarketList(): List<StockMarket> {
         return stockMarketRepository.findAll()
     }
