@@ -32,19 +32,22 @@ class StockPriceService {
     }
 
     fun getRecentPriceArrayOf(targetStockNameArray: Array<String>): Array<BigDecimal> {
+        var stockArrayString = ""
+        targetStockNameArray.forEach { name -> stockArrayString += "$name%2C" }
+        stockArrayString = stockArrayString.substring(0, stockArrayString.length-3)
+
         val request: HttpRequest = HttpRequest.newBuilder()
-            .uri(URI.create("https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes?region=US&symbols=AMD%2CIBM%2CAAPL"))
+            .uri(URI.create("https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes?region=US&symbols=$stockArrayString"))
             .header("x-rapidapi-key", rapidAPIKey)
             .header("x-rapidapi-host", "apidojo-yahoo-finance-v1.p.rapidapi.com")
             .method("GET", HttpRequest.BodyPublishers.noBody())
             .build()
         val response: HttpResponse<String> =
             HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString())
-        val result: String = response.body()
-        val array: JSONArray = JSONObject(result).getJSONObject("quoteResponse").getJSONArray("result")
-        val priceArray: Array<BigDecimal> = Array(array.length()) { BigDecimal(0) }
-        for (i in 0 until array.length()) {
-            priceArray[i] = array.getJSONObject(i).getBigDecimal("regularMarketPrice")
+        val resultArray: JSONArray = JSONObject(response.body()).getJSONObject("quoteResponse").getJSONArray("result")
+        val priceArray: Array<BigDecimal> = Array(resultArray.length()) { BigDecimal(0) }
+        for (i in 0 until resultArray.length()) {
+            priceArray[i] = resultArray.getJSONObject(i).getBigDecimal("regularMarketPrice")
         }
         return priceArray
     }
