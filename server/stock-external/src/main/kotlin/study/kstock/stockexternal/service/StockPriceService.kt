@@ -31,13 +31,13 @@ class StockPriceService {
         throw IllegalArgumentException("Yahoo Finance에 없는 주식입니다")
     }
 
-    fun getRecentPriceArrayOf(targetStockNameArray: Array<String>): Array<BigDecimal> {
+    fun getRecentPriceArrayOf(targetStockNameArray: Array<String>, region: String): Array<BigDecimal> {
         var stockArrayString = ""
         targetStockNameArray.forEach { name -> stockArrayString += "$name%2C" }
         stockArrayString = stockArrayString.substring(0, stockArrayString.length-3)
 
         val request: HttpRequest = HttpRequest.newBuilder()
-            .uri(URI.create("https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes?region=US&symbols=$stockArrayString"))
+            .uri(URI.create("https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes?region=$region&symbols=$stockArrayString"))
             .header("x-rapidapi-key", rapidAPIKey)
             .header("x-rapidapi-host", "apidojo-yahoo-finance-v1.p.rapidapi.com")
             .method("GET", HttpRequest.BodyPublishers.noBody())
@@ -45,10 +45,13 @@ class StockPriceService {
         val response: HttpResponse<String> =
             HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString())
         val resultArray: JSONArray = JSONObject(response.body()).getJSONObject("quoteResponse").getJSONArray("result")
-        val priceArray: Array<BigDecimal> = Array(resultArray.length()) { BigDecimal(0) }
+        val stockInfoArray: Array<BigDecimal> = Array(resultArray.length()) { BigDecimal(0) }
         for (i in 0 until resultArray.length()) {
-            priceArray[i] = resultArray.getJSONObject(i).getBigDecimal("regularMarketPrice")
+            val stockInfo = resultArray.getJSONObject(i)
+            if (stockInfo.has("regularMarketPrice")) {
+                stockInfoArray[i] = resultArray.getJSONObject(i).getBigDecimal("regularMarketPrice")
+            }
         }
-        return priceArray
+        return stockInfoArray
     }
 }
