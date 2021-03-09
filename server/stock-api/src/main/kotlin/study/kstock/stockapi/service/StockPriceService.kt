@@ -1,4 +1,4 @@
-package study.kstock.stockexternal.service
+package study.kstock.stockapi.service
 
 import org.json.JSONArray
 import org.json.JSONObject

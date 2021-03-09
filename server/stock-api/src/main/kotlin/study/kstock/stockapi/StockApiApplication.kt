@@ -1,11 +1,11 @@
-package study.kstock.stockexternal
+package study.kstock.stockapi
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class StockExternalApplication
+class StockApiApplication
 
 fun main(args: Array<String>) {
-    runApplication<StockExternalApplication>(*args)
+    runApplication<StockApiApplication>(*args)
 }

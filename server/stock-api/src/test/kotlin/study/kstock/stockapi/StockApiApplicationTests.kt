@@ -1,10 +1,10 @@
-package study.kstock.stockexternal
+package study.kstock.stockapi
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class StockExternalApplicationTests {
+class StockApiApplicationTests {
 
     @Test
     fun contextLoads() {

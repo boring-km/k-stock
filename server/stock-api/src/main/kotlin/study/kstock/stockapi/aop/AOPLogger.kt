@@ -1,4 +1,4 @@
-package study.kstock.stockexternal.aop
+package study.kstock.stockapi.aop
 
 import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.annotation.AfterReturning
@@ -14,7 +14,7 @@ class AOPLogger {
 
     private val logger: Logger = LoggerFactory.getLogger(AOPLogger::class.java)
 
-    @AfterReturning(value= "execution(* study.kstock.stockexternal.service.*.getRecentPrice*(..))", returning = "priceArray")
+    @AfterReturning(value= "execution(* study.kstock.stockapi.service.*.getRecentPrice*(..))", returning = "priceArray")
     fun logAfterGetStockPriceArray(joinPoint: JoinPoint, priceArray: Array<BigDecimal>) {
         logger.info("호출한 주식들의 현재 가격 Array: ${priceArray.contentToString()}")
     }

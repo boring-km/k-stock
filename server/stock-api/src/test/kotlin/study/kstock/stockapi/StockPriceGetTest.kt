@@ -1,4 +1,4 @@
-package study.kstock.stockexternal
+package study.kstock.stockapi
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName
@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.boot.test.context.SpringBootTest
-import study.kstock.stockexternal.service.StockPriceService
+import study.kstock.stockapi.service.StockPriceService
 import javax.annotation.Resource
 
 
