@@ -17,6 +17,7 @@ repositories {
 }
 
 dependencies {
+    implementation("org.springframework.kafka:spring-kafka")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-aop")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -26,6 +27,9 @@ dependencies {
     implementation("org.json:json:20201115")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+    runtime( group= "io.springfox", name= "springfox-swagger-ui", version= "2.6.1")
+    runtime( group= "io.springfox", name= "springfox-swagger2", version="2.6.1")
+    testImplementation("org.springframework.kafka:spring-kafka-test")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 

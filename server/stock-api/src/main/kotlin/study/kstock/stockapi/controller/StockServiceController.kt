@@ -1,9 +1,21 @@
 package study.kstock.stockapi.controller
 
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
+import study.kstock.stockapi.domain.Ping
+import study.kstock.stockapi.domain.Pong
+import study.kstock.stockapi.service.PingService
 
 @RestController
 class StockServiceController {  // stock-core 서버에 요청하여 결과를 다시 반환할 뿐인 컨트롤러
+
+    @Autowired
+    lateinit var pingService: PingService
+
+    @PostMapping("test")
+    fun testMethod(@RequestBody body: Ping): Pong {
+        return pingService.pingAndPong(body)
+    }
 
     @GetMapping("market/list/{region}")
     fun getStockMarketList(@PathVariable region: String): Array<String> {
@@ -22,7 +34,7 @@ class StockServiceController {  // stock-core 서버에 요청하여 결과를 �
 
     @GetMapping("mystock")
     fun getMyStockList(): Array<Any> {
-        // 세션 정보를 읽어 고객 ID 값과 함께 서비스 요청
+        // 세션 정보를 읽어 함께 서비스 요청
         TODO("사용자가 등록한 주식의 이름, 종목코드, 현재가, 사용자 매수가, 알림 설정 조건, 알림 설정 여부 등을 가져와서 반환")
     }
 
