@@ -4,7 +4,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 import org.slf4j.Logger
 import org.springframework.boot.test.context.SpringBootTest
-import study.kstock.stockcore.model.StockService
+import study.kstock.stockcore.service.StockService
 import javax.annotation.Resource
 
 @SpringBootTest
