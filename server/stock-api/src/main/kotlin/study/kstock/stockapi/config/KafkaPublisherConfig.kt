@@ -9,8 +9,7 @@ import org.springframework.kafka.core.DefaultKafkaProducerFactory
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.core.ProducerFactory
 import org.springframework.kafka.support.serializer.JsonSerializer
-import study.kstock.stockapi.domain.Ping
-import java.util.HashMap
+import java.util.*
 
 
 @Configuration
@@ -18,8 +17,8 @@ class KafkaPublisherConfig {
     @Value(value = "\${kafka.bootstrap}")
     private val bootstrap: String? = null
     @Bean
-    fun pingProducerFactory(): ProducerFactory<String, Ping> {
-        val configProps: MutableMap<String, Any?> = HashMap()
+    fun pingProducerFactory(): ProducerFactory<String, Any> {
+        val configProps = HashMap<String, Any?>()
         configProps[ProducerConfig.BOOTSTRAP_SERVERS_CONFIG] = bootstrap
         configProps[ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java
         configProps[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = JsonSerializer::class.java
@@ -27,7 +26,7 @@ class KafkaPublisherConfig {
     }
 
     @Bean
-    fun pingKafkaTemplate(): KafkaTemplate<String, Ping> {
+    fun pingKafkaTemplate(): KafkaTemplate<String, Any> {
         return KafkaTemplate(pingProducerFactory())
     }
 }

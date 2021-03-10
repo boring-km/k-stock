@@ -5,8 +5,11 @@ import org.springframework.web.bind.annotation.*
 import study.kstock.stockapi.domain.Ping
 import study.kstock.stockapi.domain.Pong
 import study.kstock.stockapi.service.PingService
+import io.swagger.annotations.*
+
 
 @RestController
+@Api(value = "StockServiceController")
 class StockServiceController {  // stock-core 서버에 요청하여 결과를 다시 반환할 뿐인 컨트롤러
 
     @Autowired
