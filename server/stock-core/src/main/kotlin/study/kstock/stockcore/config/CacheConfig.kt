@@ -1,6 +1,5 @@
 package study.kstock.stockcore.config
 
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.cache.CacheManager
 import org.springframework.context.annotation.Bean
@@ -11,15 +10,10 @@ import org.springframework.data.redis.connection.RedisConnectionFactory
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer
 import org.springframework.data.redis.serializer.RedisSerializationContext
 import org.springframework.data.redis.serializer.StringRedisSerializer
+import java.time.Duration
 
 @Configuration
 class CacheConfig {
-
-    @Autowired
-    lateinit var redisConnectionFactory: RedisConnectionFactory
-
-    @Autowired
-    lateinit var objectMapper: ObjectMapper
 
     @Autowired
     lateinit var connectionFactory: RedisConnectionFactory
@@ -28,11 +22,15 @@ class CacheConfig {
     fun redisCacheManager(): CacheManager {
         val redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
             .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(StringRedisSerializer()))
-            .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(GenericJackson2JsonRedisSerializer()))
-        val redisCacheManager: RedisCacheManager = RedisCacheManager.RedisCacheManagerBuilder
+            .serializeValuesWith(
+                RedisSerializationContext.SerializationPair.fromSerializer(
+                    GenericJackson2JsonRedisSerializer()
+                )
+            )
+            .entryTtl(Duration.ofSeconds(30))
+        return RedisCacheManager.RedisCacheManagerBuilder
             .fromConnectionFactory(connectionFactory)
             .cacheDefaults(redisCacheConfiguration)
             .build()
-        return redisCacheManager
     }
 }
