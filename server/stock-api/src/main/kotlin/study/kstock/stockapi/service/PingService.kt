@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.kafka.support.SendResult
 import org.springframework.stereotype.Component
-import org.springframework.util.concurrent.ListenableFuture
 import org.springframework.util.concurrent.ListenableFutureCallback
 import study.kstock.stockapi.domain.Pong
 import java.lang.Exception
@@ -14,12 +13,12 @@ import java.lang.Exception
 class PingService {
 
     @Autowired
-    private lateinit var pingKafkaTemplate: KafkaTemplate<String, Any>
+    private lateinit var sendKafkaTemplate: KafkaTemplate<String, Any>
 
     @Throws(Exception::class)
     fun pingAndPong(ping: Any): Pong {
         val pingTopicName = "stock-api"
-        val future = pingKafkaTemplate.send(pingTopicName, ping)
+        val future = sendKafkaTemplate.send(pingTopicName, ping)
         future.addCallback(object : ListenableFutureCallback<SendResult<String?, Any?>?> {
             override fun onSuccess(result: SendResult<String?, Any?>?) {
                 val g = result!!.producerRecord.value()

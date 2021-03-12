@@ -17,7 +17,7 @@ class KafkaPublisherConfig {
     @Value(value = "\${kafka.bootstrap}")
     private val bootstrap: String? = null
     @Bean
-    fun pingProducerFactory(): ProducerFactory<String, Any> {
+    fun sendProducerFactory(): ProducerFactory<String, Any> {
         val configProps = HashMap<String, Any?>()
         configProps[ProducerConfig.BOOTSTRAP_SERVERS_CONFIG] = bootstrap
         configProps[ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java
@@ -26,7 +26,7 @@ class KafkaPublisherConfig {
     }
 
     @Bean
-    fun pingKafkaTemplate(): KafkaTemplate<String, Any> {
-        return KafkaTemplate(pingProducerFactory())
+    fun sendKafkaTemplate(): KafkaTemplate<String, Any> {
+        return KafkaTemplate(sendProducerFactory())
     }
 }
