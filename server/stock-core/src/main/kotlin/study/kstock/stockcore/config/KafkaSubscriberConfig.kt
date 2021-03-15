@@ -18,8 +18,8 @@ import java.util.HashMap
 @Configuration
 class KafkaSubscriberConfig {
 
-    @Value(value = "\${kafka.bootstrap}")
-    private val bootstrap: String? = null
+    @Value(value = "\${bootstrap.servers}")
+    private lateinit var bootstrap: String
 
     fun receiveConsumerFactory(): ConsumerFactory<String, Any> {
         val props: MutableMap<String, Any?> = HashMap()
