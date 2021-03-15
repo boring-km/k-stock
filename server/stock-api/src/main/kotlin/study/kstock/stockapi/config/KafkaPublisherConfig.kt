@@ -14,8 +14,8 @@ import java.util.*
 
 @Configuration
 class KafkaPublisherConfig {
-    @Value(value = "\${kafka.bootstrap}")
-    private val bootstrap: String? = null
+    @Value(value = "\${bootstrap.servers}")
+    private lateinit var bootstrap: String   // 현재는 단일 서버
     @Bean
     fun sendProducerFactory(): ProducerFactory<String, Any> {
         val configProps = HashMap<String, Any?>()
