@@ -8,3 +8,9 @@ import java.util.*
 interface StockMarketRepository: JpaRepository<StockMarket, Int> {
     fun findByMarketName(name: String): Optional<StockMarket>
 }
+
+@Repository
+interface StockDataRepository: JpaRepository<StockData, Int>
+
+@Repository
+interface StockSymbolRepository: JpaRepository<StockSymbol, Int>
