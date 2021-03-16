@@ -18,10 +18,10 @@ import java.util.HashMap
 @Configuration
 class KafkaSubscriberConfig {
 
-    @Value(value = "\${kafka.bootstrap}")
-    private val bootstrap: String? = null
+    @Value(value = "\${bootstrap.servers}")
+    private lateinit var bootstrap: String
 
-    fun pingConsumerFactory(): ConsumerFactory<String, Any> {
+    fun receiveConsumerFactory(): ConsumerFactory<String, Any> {
         val props: MutableMap<String, Any?> = HashMap()
         props[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = bootstrap  // Multi Cluster 환경일 경우 여러개 나열 가능
         props[ConsumerConfig.GROUP_ID_CONFIG] = "stock-core"
@@ -29,6 +29,7 @@ class KafkaSubscriberConfig {
         props[ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG] = JsonDeserializer::class.java
         props[ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG] = "false"
         props[ConsumerConfig.AUTO_OFFSET_RESET_CONFIG] = "earliest"
+
         return DefaultKafkaConsumerFactory(
             props, StringDeserializer(),
             JsonDeserializer(Any::class.java, false)
@@ -36,11 +37,11 @@ class KafkaSubscriberConfig {
     }
 
     @Bean
-    fun pingKafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, Any> {
+    fun receiveKafkaListenerContainerFactory(): ConcurrentKafkaListenerContainerFactory<String, Any> {
         val factory: ConcurrentKafkaListenerContainerFactory<String, Any> =
             ConcurrentKafkaListenerContainerFactory<String, Any>()
         factory.containerProperties.ackMode = ContainerProperties.AckMode.MANUAL_IMMEDIATE
-        factory.consumerFactory = pingConsumerFactory()
+        factory.consumerFactory = receiveConsumerFactory()
         return factory
     }
 }
