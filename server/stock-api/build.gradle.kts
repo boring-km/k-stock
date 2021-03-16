@@ -6,7 +6,6 @@ plugins {
     war
     kotlin("jvm") version "1.4.30"
     kotlin("plugin.spring") version "1.4.30"
-    kotlin("plugin.jpa") version "1.4.30"
 }
 
 group = "study.kstock"
@@ -18,18 +17,35 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+    // kafka
+    implementation("org.springframework.kafka:spring-kafka")
+    implementation("org.junit.jupiter:junit-jupiter:5.4.2")
+    testImplementation("org.springframework.kafka:spring-kafka-test")
+
+    // web
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-aop")
+
+    // kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.springframework.kafka:spring-kafka")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+
+    // spring autoreload
     developmentOnly("org.springframework.boot:spring-boot-devtools")
-    runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
+
+    // tomcat
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
-    testImplementation("org.springframework.kafka:spring-kafka-test")
+
+    // swagger
+    @Suppress("DEPRECATION")
+    compile( group= "io.springfox", name= "springfox-swagger-ui", version= "2.9.2")
+    @Suppress("DEPRECATION")
+    compile( group= "io.springfox", name= "springfox-swagger2", version="2.9.2")
+
+    // spring test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
