@@ -5,21 +5,10 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "StockMarket")
-class StockMarket(id: Int, marketName: String, country: String): Serializable{
-
+class StockMarket(
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Int = 0
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private var id: Int,
 
-    @Column(length = 100)
-    var marketName: String
-
-    @Column(length = 100)
-    var country: String
-
-    init {
-        this.id = id
-        this.marketName = marketName
-        this.country = country
-    }
-}
+    @Column(length = 100) var marketName: String,
+    @Column(length = 100) var country: String): Serializable
