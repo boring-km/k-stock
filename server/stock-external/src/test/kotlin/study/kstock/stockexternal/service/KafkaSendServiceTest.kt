@@ -1,16 +1,14 @@
 package study.kstock.stockexternal.service
 
-import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Test
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.kafka.support.SendResult
 import org.springframework.util.concurrent.ListenableFutureCallback
-import study.kstock.stockexternal.aop.AOPLogger
 import study.kstock.stockexternal.message.ApiRequest
 
 @SpringBootTest
