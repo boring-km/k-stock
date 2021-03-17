@@ -17,18 +17,18 @@ class StockPriceGetTest {
     @Resource
     lateinit var stockPriceService: StockPriceService
 
-    @DisplayName("IPV_주식의_현재_가격은_10_달러보다_크다")
+    @DisplayName("AEVA_주식의_현재_가격은_15.08달러다")
     @Test
     internal fun getRecentPriceTest() {
-        val resultPrice = stockPriceService.getRecentPriceOf("IPV")
+        val resultPrice = stockPriceService.getRecentPriceOf("AEVA")
         logger.info("현재 가격: $resultPrice")
-        assertThat(resultPrice).isGreaterThan(10.0)
+        assertThat(resultPrice).isEqualTo(15.08)
     }
 
-    @DisplayName("아마존_애플_IPV_주식의_현재_주가를_가져온다")
+    @DisplayName("아마존_애플_AEVA_주식의_현재_주가를_가져온다")
     @Test
     internal fun getRecentPriceArrayTest() {
-        val targetStockNameArray = arrayOf("AMZN", "APPL", "IPV")
+        val targetStockNameArray = arrayOf("AMZN", "AAPL", "AEVA")
         val region = "US"
         val resultPriceArray = stockPriceService.getRecentPriceArrayOf(targetStockNameArray, region)
         assertThat(resultPriceArray).hasSize(3)
