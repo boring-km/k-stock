@@ -17,18 +17,28 @@ repositories {
 }
 
 dependencies {
+
+    // Spring
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-aop")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("org.jsoup:jsoup:1.13.1")
-    implementation("org.json:json:20201115")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.springframework.kafka:spring-kafka")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+    // Kotlin
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
+    // kafka
+    implementation("org.springframework.kafka:spring-kafka")
     testImplementation("org.springframework.kafka:spring-kafka-test")
+
+    // Crawling
+    implementation("org.jsoup:jsoup:1.13.1")
+
+    // Json
+    implementation("org.json:json:20201115")
 }
 
 tasks.withType<KotlinCompile> {
