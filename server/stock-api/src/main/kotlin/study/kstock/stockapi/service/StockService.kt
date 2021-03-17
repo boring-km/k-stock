@@ -42,7 +42,6 @@ class StockService {
     }
 
     suspend fun getStockMarketListTest(): Array<StockData> {
-
         val result = webClient
             .mutate()
             .build()
@@ -56,8 +55,17 @@ class StockService {
         throw IllegalArgumentException("없음")
     }
 
-    fun getArrayOf20Stocks(): Array<StockData> {
-        TODO("해당 거래소의 주식들을 종목코드, 종목명, 현재가 등을 start부터 20개 반환" +
-                "ex) start가 10이면, 10부터 29번까지 20개 반환")
+    suspend fun getArrayOf20Stocks(market: String, start: Int): Array<StockData> {
+        val result = webClient
+            .mutate()
+            .build()
+            .get()
+            .uri("$coreURL/stock/list/$market/$start")
+            .retrieve()
+            .awaitBody<Array<StockData>>()
+        if (result.isNotEmpty()) {
+            return result
+        }
+        throw IllegalArgumentException("없음")
     }
 }

@@ -20,8 +20,8 @@ class StockServiceController {  // stock-core 서버에 요청하여 결과를 �
     }
 
     @GetMapping("stock/list/{market}/{start}")
-    fun getArrayOf20Stocks(@PathVariable market: String, @PathVariable start: Int): Array<StockData> {
-        return stockService.getArrayOf20Stocks()
+    suspend fun getArrayOf20Stocks(@PathVariable market: String, @PathVariable start: Int): Array<StockData> {
+        return stockService.getArrayOf20Stocks(market, start)
     }
 
 }
