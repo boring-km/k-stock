@@ -19,7 +19,6 @@ repositories {
 dependencies {
     // kafka
     implementation("org.springframework.kafka:spring-kafka")
-    implementation("org.junit.jupiter:junit-jupiter:5.4.2")
     testImplementation("org.springframework.kafka:spring-kafka-test")
 
     // web
