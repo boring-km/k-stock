@@ -1,8 +1,9 @@
 package study.kstock.stockapi.controller
 
 import io.swagger.annotations.Api
-import org.springframework.web.bind.annotation.*
-import study.kstock.stockapi.domain.StockData
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RestController
 import study.kstock.stockapi.service.StockService
 import javax.annotation.Resource
 
@@ -15,12 +16,12 @@ class StockServiceController {  // stock-core 서버에 요청하여 결과를 �
     lateinit var stockService: StockService
 
     @GetMapping("test/list")
-    suspend fun getStockMarketListTest(): Array<StockData> {
+    suspend fun getStockMarketListTest(): Array<Any> {
         return stockService.getStockMarketListTest()
     }
 
     @GetMapping("stock/list/{market}/{start}")
-    suspend fun getArrayOf20Stocks(@PathVariable market: String, @PathVariable start: Int): Array<StockData> {
+    suspend fun getArrayOf20Stocks(@PathVariable market: String, @PathVariable start: Int): Array<Any> {
         return stockService.getArrayOf20Stocks(market, start)
     }
 
