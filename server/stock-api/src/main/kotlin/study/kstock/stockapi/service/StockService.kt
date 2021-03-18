@@ -41,30 +41,25 @@ class StockService {
     }
 
     suspend fun getStockMarketListTest(): Array<Any> {
-        val result = webClient
-            .mutate()
-            .build()
-            .get()
-            .uri("$coreURL/market/list")
-            .retrieve()
-            .awaitBody<Array<Any>>()
-        if (result.isNotEmpty()) {
-            return result
-        }
-        throw IllegalArgumentException("없음")
+        return getResultToUseDefaultGetTo("$coreURL/market/list")
     }
 
     suspend fun getArrayOf20Stocks(market: String, start: Int): Array<Any> {
+        return getResultToUseDefaultGetTo("$coreURL/stock/list/$market/$start")
+    }
+
+    suspend fun getMarketListByRegion(region: String): Array<Any> {
+        return getResultToUseDefaultGetTo("$coreURL/market/list/$region")
+    }
+
+    private suspend fun getResultToUseDefaultGetTo(uri: String): Array<Any> {
         val result = webClient
             .mutate()
             .build()
             .get()
-            .uri("$coreURL/stock/list/$market/$start")
+            .uri(uri)
             .retrieve()
             .awaitBody<Array<Any>>()
-        if (result.isNotEmpty()) {
-            return result
-        }
-        throw IllegalArgumentException("없음")
+        if (result.isNotEmpty()) return result else throw IllegalArgumentException("없음")
     }
 }
