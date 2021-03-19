@@ -40,10 +40,6 @@ class StockService {
         )
     }
 
-    suspend fun getStockMarketListTest(): Array<Any> {
-        return getResultToUseDefaultGetTo("$coreURL/market/list")
-    }
-
     suspend fun getArrayOf20Stocks(market: String, start: Int): Array<Any> {
         return getResultToUseDefaultGetTo("$coreURL/stock/list/$market/$start")
     }

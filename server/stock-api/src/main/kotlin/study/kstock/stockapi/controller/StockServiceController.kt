@@ -15,11 +15,6 @@ class StockServiceController {  // stock-core 서버에 요청하여 결과를 �
     @Resource
     lateinit var stockService: StockService
 
-    @GetMapping("test/list")
-    suspend fun getStockMarketListTest(): Array<Any> {
-        return stockService.getStockMarketListTest()
-    }
-
     @GetMapping("market/list/{region}")
     suspend fun getMarketListByRegion(@PathVariable region: String): Array<Any> {
         return stockService.getMarketListBy(region)
