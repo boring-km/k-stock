@@ -22,7 +22,7 @@ class StockServiceController {  // stock-core 서버에 요청하여 결과를 �
 
     @GetMapping("market/list/{region}")
     suspend fun getMarketListByRegion(@PathVariable region: String): Array<Any> {
-        return stockService.getMarketListByRegion(region)
+        return stockService.getMarketListBy(region)
     }
 
     @GetMapping("stock/list/{market}/{start}")

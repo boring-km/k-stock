@@ -48,7 +48,7 @@ class StockService {
         return getResultToUseDefaultGetTo("$coreURL/stock/list/$market/$start")
     }
 
-    suspend fun getMarketListByRegion(region: String): Array<Any> {
+    suspend fun getMarketListBy(region: String): Array<Any> {
         return getResultToUseDefaultGetTo("$coreURL/market/list/$region")
     }
 
