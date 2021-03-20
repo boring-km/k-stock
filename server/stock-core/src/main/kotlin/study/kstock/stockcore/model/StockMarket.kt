@@ -11,4 +11,4 @@ class StockMarket(
     private var id: Int,
 
     @Column(length = 100) var marketName: String,
-    @Column(length = 100) var country: String): Serializable
+    @Column(length = 100) var region: String): Serializable

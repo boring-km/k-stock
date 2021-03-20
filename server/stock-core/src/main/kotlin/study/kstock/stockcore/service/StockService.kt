@@ -11,20 +11,11 @@ import javax.annotation.Resource
 class StockService {
 
     @Resource private lateinit var stockMarketRepository: StockMarketRepository
-    @Resource private lateinit var stockSymbolRepository: StockSymbolRepository
     @Resource private lateinit var stockDataRepository: StockDataRepository
 
     val logger: Logger = LoggerFactory.getLogger(StockService::class.java)
 
-    fun getMarketList(): MutableList<StockMarket> {
-        return stockMarketRepository.findAll()
-    }
-
-    fun getStockSymbolList(): MutableList<StockSymbol> {
-        return stockSymbolRepository.findAll()
-    }
-
-    fun getStockDataList(): MutableList<StockData> {
+    fun getArrayOf20Stocks(market: String, start: String): MutableList<StockData> {
         return stockDataRepository.findAll()
     }
 
@@ -42,5 +33,9 @@ class StockService {
         val userId = arrayData[1]
         logger.info("전달받은 주식종목: $symbol, 유저 ID: $userId")
         // TODO: MariaDB에 데이터 insert
+    }
+
+    fun getMarketListBy(region: String): MutableList<StockMarket> {
+        return stockMarketRepository.findByRegion(region)
     }
 }

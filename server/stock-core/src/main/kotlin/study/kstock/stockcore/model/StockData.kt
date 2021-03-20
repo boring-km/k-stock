@@ -16,6 +16,4 @@ class StockData(
 
     @Column var lastPrice: Double,
     @Column var priceChange: Double,
-    @Column var percentChange: Double): Serializable {
-
-}
+    @Column var percentChange: Double): Serializable

@@ -30,7 +30,10 @@ dependencies {
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
     testImplementation("org.springframework.kafka:spring-kafka-test")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(module = "junit")
+    }
+
 }
 
 tasks.withType<KotlinCompile> {
