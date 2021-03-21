@@ -30,10 +30,20 @@ class StockServiceTest {
         assertThat(size).isEqualTo(expected)
     }
 
+    @DisplayName("NYSE 거래소의 주식 데이터는 비어 있지 않다")
     @Test
-    internal fun getStockDataListTest() {
-        stockService.getArrayOf20Stocks("AEVA", 0).forEach {
-            stockData -> logger.info("AnyData: $stockData")
+    internal fun getArrayOf20StocksTest() {
+
+        // given
+        val marketName = "NYSE"
+
+        // when
+        val result = stockService.getArrayOf20Stocks(marketName, 0)
+        result.forEach { stockData ->
+            logger.info("$marketName StockData: $stockData")
         }
+
+        // then
+        assertThat(result).isNotEmpty
     }
 }

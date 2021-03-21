@@ -13,8 +13,8 @@ interface StockMarketRepository: JpaRepository<StockMarket, Int> {
 
 @Repository
 interface StockDataRepository: JpaRepository<StockData, Int> {
-    @Query("select data from StockData data where data.stockSymbol.symbol = :symbol")
-    fun getArrayOf20Stocks(@Param("symbol") symbol: String, pageable: Pageable): MutableList<StockData>
+    @Query("select data from StockData data where data.stockSymbol.stockMarket.marketName = :name")
+    fun getArrayOf20Stocks(@Param("name") name: String, pageable: Pageable): MutableList<StockData>
 }
 
 @Repository
