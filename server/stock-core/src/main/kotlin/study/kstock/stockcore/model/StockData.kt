@@ -16,4 +16,9 @@ class StockData(
 
     @Column var lastPrice: Double,
     @Column var priceChange: Double,
-    @Column var percentChange: Double): Serializable
+    @Column var percentChange: Double): Serializable {
+
+    override fun toString(): String {
+        return "StockData(id=$id, stockSymbol=$stockSymbol, lastPrice=$lastPrice, priceChange=$priceChange, percentChange=$percentChange)"
+    }
+}

@@ -14,4 +14,12 @@ class StockSymbol(
     @ManyToOne
     @JoinColumn(name = "marketId")
     var stockMarket: StockMarket
-)
+
+) {
+
+    override fun toString(): String {
+        return "StockSymbol(id=$id, symbol='$symbol', name='$name', stockMarket=$stockMarket)"
+    }
+
+
+}
