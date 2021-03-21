@@ -19,7 +19,7 @@ class APIController {
     }
 
     @GetMapping("stock/list/{market}/{start}")
-    fun getArrayOf20Stocks(@PathVariable market: String, @PathVariable start: String): MutableList<StockData> {
+    fun getArrayOf20Stocks(@PathVariable market: String, @PathVariable start: Int): MutableList<StockData> {
         return service.getArrayOf20Stocks(market, start)
     }
 

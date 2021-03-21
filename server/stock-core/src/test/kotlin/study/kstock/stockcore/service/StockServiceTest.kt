@@ -32,8 +32,8 @@ class StockServiceTest {
 
     @Test
     internal fun getStockDataListTest() {
-        stockService.getArrayOf20Stocks("", "").forEach {
-            stockData -> logger.info(stockData.stockSymbol.name)
+        stockService.getArrayOf20Stocks("AEVA", 0).forEach {
+            stockData -> logger.info("AnyData: $stockData")
         }
     }
 }

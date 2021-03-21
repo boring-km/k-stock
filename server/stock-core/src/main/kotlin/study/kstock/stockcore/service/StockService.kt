@@ -2,6 +2,7 @@ package study.kstock.stockcore.service
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import study.kstock.stockcore.message.ApiRequest
 import study.kstock.stockcore.model.*
@@ -15,8 +16,8 @@ class StockService {
 
     val logger: Logger = LoggerFactory.getLogger(StockService::class.java)
 
-    fun getArrayOf20Stocks(market: String, start: String): MutableList<StockData> {
-        return stockDataRepository.findAll()
+    fun getArrayOf20Stocks(market: String, start: Int): MutableList<StockData> {
+        return stockDataRepository.getArrayOf20Stocks(market, PageRequest.of(start, 20))
     }
 
     fun execute(apiRequest: ApiRequest) {
