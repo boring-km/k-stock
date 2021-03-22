@@ -5,18 +5,18 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "StockData")
-class StockData(
+data class StockData(
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private var id: Int,
 
     @ManyToOne
     @JoinColumn(name = "symbolId")
-    var stockSymbol: StockSymbol,
+    private var stockSymbol: StockSymbol,
 
-    @Column var lastPrice: Double,
-    @Column var priceChange: Double,
-    @Column var percentChange: Double): Serializable {
+    @Column private var lastPrice: Double,
+    @Column private var priceChange: Double,
+    @Column private var percentChange: Double): Serializable {
 
     override fun toString(): String {
         return "StockData(id=$id, stockSymbol=$stockSymbol, lastPrice=$lastPrice, priceChange=$priceChange, percentChange=$percentChange)"
