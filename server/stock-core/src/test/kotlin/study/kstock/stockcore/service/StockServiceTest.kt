@@ -11,7 +11,7 @@ import javax.annotation.Resource
 class StockServiceTest {
 
     @Resource
-    lateinit var stockService: StockService
+    private lateinit var stockService: StockService
 
     private val logger: Logger = org.slf4j.LoggerFactory.getLogger(StockServiceTest::class.java)
 
@@ -23,6 +23,7 @@ class StockServiceTest {
 
         // when
         val marketList = stockService.getMarketListBy(region)
+        marketList.forEach { stockMarket -> logger.info("${region}에 있는 거래소: $stockMarket") }
         val size = marketList.size
         val expected = 4
 
@@ -30,15 +31,16 @@ class StockServiceTest {
         assertThat(size).isEqualTo(expected)
     }
 
-    @DisplayName("NYSE 거래소의 주식 데이터는 비어 있지 않다")
+    @DisplayName("NYSE 거래소의 주어진 시작 인덱스 0부터 20개의 주식 데이터를 가져올 수 있다")
     @Test
     internal fun getArrayOf20StocksTest() {
 
         // given
         val marketName = "NYSE"
+        val startIndex = 0
 
         // when
-        val result = stockService.getArrayOf20Stocks(marketName, 0)
+        val result = stockService.getArrayOf20Stocks(marketName, startIndex)
         result.forEach { stockData ->
             logger.info("$marketName StockData: $stockData")
         }
