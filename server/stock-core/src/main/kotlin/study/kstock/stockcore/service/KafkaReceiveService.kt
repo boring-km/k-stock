@@ -24,7 +24,7 @@ class KafkaReceiveService {
             // 처리 업무가 필요한 service의 공통 execute 메서드 호출
             //  1. 사용자 처리 요청 (stock-api)
             //  2. 주식 데이터 저장 요청 (stock-external)
-            stockService.execute(apiRequest = value)
+            // TODO stockService.execute(apiRequest = value)
             ack.acknowledge()
         } catch (e: Exception) {
             logger.error("카프카 메시지 수신 에러: $e")

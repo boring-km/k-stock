@@ -28,7 +28,6 @@ class WebClientConfig {
                     .addHandlerLast(WriteTimeoutHandler(5000, TimeUnit.MILLISECONDS))
             }
         return WebClient.builder()
-            .defaultCookie("cookieKey", "cookieValue")
             .clientConnector(ReactorClientHttpConnector(httpClient))
             .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
             .build()

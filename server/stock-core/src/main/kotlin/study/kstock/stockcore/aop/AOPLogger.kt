@@ -37,7 +37,7 @@ class AOPLogger {
     @AfterReturning(value= "execution(* study.kstock.stockcore.service.Stock*.get*(..))", returning = "stockMarketList")
     fun afterReturningStockMarketList(joinPoint: JoinPoint, stockMarketList: List<StockMarket>) {
         stockMarketList.forEach { stockMarket ->
-            logger.info("거래소: ${stockMarket.marketName}")
+            logger.info("거래소: $stockMarket")
         }
     }
 

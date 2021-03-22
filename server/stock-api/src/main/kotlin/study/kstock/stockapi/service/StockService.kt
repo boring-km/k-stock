@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service
 import org.springframework.util.concurrent.ListenableFutureCallback
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.client.awaitBody
-import study.kstock.stockapi.domain.StockData
 import study.kstock.stockapi.message.ApiRequest
 import javax.annotation.Resource
 
@@ -41,22 +40,22 @@ class StockService {
         )
     }
 
-    fun getStockMarketList(region: String): Array<String> {
-        TODO("다 불러올 수는 없다")
+    suspend fun getArrayOf20Stocks(market: String, start: Int): Array<Any> {
+        return getResultToUseDefaultGetTo("$coreURL/stock/list/$market/$start")
     }
 
-    suspend fun getStockMarketListTest(): Array<StockData> {
+    suspend fun getMarketListBy(region: String): Array<Any> {
+        return getResultToUseDefaultGetTo("$coreURL/market/list/$region")
+    }
 
+    private suspend fun getResultToUseDefaultGetTo(uri: String): Array<Any> {
         val result = webClient
             .mutate()
             .build()
             .get()
-            .uri("$coreURL/market/list")
+            .uri(uri)
             .retrieve()
-            .awaitBody<Array<StockData>>()
-        if (result.isNotEmpty()) {
-            return result
-        }
-        throw IllegalArgumentException("없음")
+            .awaitBody<Array<Any>>()
+        if (result.isNotEmpty()) return result else throw IllegalArgumentException("없음")
     }
 }
