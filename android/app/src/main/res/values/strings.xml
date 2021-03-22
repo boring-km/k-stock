@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">K-StockApp</string>
+    <string name="hint">Type Any Stock Name…</string>
+
 </resources>
