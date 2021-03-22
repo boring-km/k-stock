@@ -11,8 +11,4 @@ data class StockMarket(
     private var id: Int,
 
     @Column(length = 100) private var marketName: String,
-    @Column(length = 100) private var region: String): Serializable {
-    override fun toString(): String {
-        return "StockMarket(id=$id, marketName='$marketName', region='$region')"
-    }
-}
+    @Column(length = 100) private var region: String): Serializable
