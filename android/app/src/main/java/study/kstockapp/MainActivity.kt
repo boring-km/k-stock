@@ -30,7 +30,6 @@ class MainActivity : AppCompatActivity() {
 
         binding.spinnerStockMarket.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 
-            //https://stackoverflow.com/questions/16439463/why-is-onnothingselected-method-needed-in-spinner-listener
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 Toast.makeText(this@MainActivity, "시장 중 하나를 선택해주세요", Toast.LENGTH_SHORT).show()
             }
