@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string-array name="stock_market">
-        <item>NYSE</item>
-        <item>NASDAQ</item>
-        <item>AMEX</item>
-    </string-array>
-</resources>
