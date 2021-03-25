@@ -12,6 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         tools:context=".MainActivity">
 
         <LinearLayout
@@ -32,7 +34,7 @@
                 android:ems="10"
                 android:hint="@string/hint"
                 android:importantForAutofill="no"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"/>
         </LinearLayout>
 
         <TextView
