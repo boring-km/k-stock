@@ -52,7 +52,6 @@ class MainActivity : AppCompatActivity() {
             sampleStockData.add(StockData("주식데이터 $i 번째", "NYSE", 30.25,0.0,0.0))
         }
 
-        // 리사이클러 뷰에 LinearLayoutManager 및 adapter 적용
         binding.recyclerviewSearchedStock.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = StockAdapter(sampleStockData) {
