@@ -5,13 +5,18 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.slf4j.Logger
 import org.springframework.boot.test.context.SpringBootTest
+import study.kstock.stockcore.service.search.Search20StockDataArray
+import study.kstock.stockcore.service.search.SearchMarketListByRegion
 import javax.annotation.Resource
 
 @SpringBootTest
 class StockServiceTest {
 
     @Resource
-    private lateinit var stockService: StockService
+    private lateinit var searchMarketListByRegion: SearchMarketListByRegion
+
+    @Resource
+    private lateinit var search20StockDataArray: Search20StockDataArray
 
     private val logger: Logger = org.slf4j.LoggerFactory.getLogger(StockServiceTest::class.java)
 
@@ -22,7 +27,7 @@ class StockServiceTest {
         val region = "United States"
 
         // when
-        val marketList = stockService.getMarketListBy(region)
+        val marketList = searchMarketListByRegion.search(region)
         marketList.forEach { stockMarket -> logger.info("${region}에 있는 거래소: $stockMarket") }
         val size = marketList.size
         val expected = 4
@@ -40,7 +45,7 @@ class StockServiceTest {
         val startIndex = 0
 
         // when
-        val result = stockService.getArrayOf20Stocks(marketName, startIndex)
+        val result = search20StockDataArray.search(marketName, startIndex)
         result.forEach { stockData ->
             logger.info("$marketName StockData: $stockData")
         }
