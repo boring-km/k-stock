@@ -26,11 +26,18 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-aop")
 
+    // Security
+    implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+
     // kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+
+    // UserDB
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
 
     // spring autoreload
     developmentOnly("org.springframework.boot:spring-boot-devtools")
