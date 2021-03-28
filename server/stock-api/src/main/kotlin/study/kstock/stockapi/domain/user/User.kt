@@ -1,12 +1,14 @@
-package study.kstock.stockapi.user
+package study.kstock.stockapi.domain.user
 
+import study.kstock.stockapi.domain.BaseTimeEntity
 import javax.persistence.*
 
 @Entity
-class User {
+class User: BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private val id: Int? = null
+    var userId: Int? = null
+        private set
 
     @Column(nullable = false)
     var name: String? = null

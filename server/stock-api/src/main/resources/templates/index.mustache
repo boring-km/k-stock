@@ -1,0 +1,16 @@
+{{>layout/header}}
+<h1>STOCK API 서버</h1>
+<div class="col-md-12">
+    <div class="row">
+        <div calss="col-md-6">
+            {{#userName}}
+                Logged in as: <span id="user">{{userName}}</span>
+                <a href="/logout" class="btn btn-info active" role="button">Logout</a>
+            {{/userName}}
+            {{^userName}}
+                <a href="/oauth2/authorization/google" class="btn btn-success active" role="button">Google Login</a>
+            {{/userName}}
+        </div>
+    </div>
+</div>
+{{>layout/footer}}

@@ -1,6 +1,6 @@
 package study.kstock.stockapi.config.auth.dto
 
-import study.kstock.stockapi.user.User
+import study.kstock.stockapi.domain.user.User
 import java.io.Serializable
 
 class SessionUser(user: User) : Serializable {

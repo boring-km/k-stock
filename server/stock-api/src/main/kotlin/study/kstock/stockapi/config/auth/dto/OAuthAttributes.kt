@@ -1,7 +1,7 @@
 package study.kstock.stockapi.config.auth.dto
 
-import study.kstock.stockapi.user.Role
-import study.kstock.stockapi.user.User
+import study.kstock.stockapi.domain.user.Role
+import study.kstock.stockapi.domain.user.User
 
 class OAuthAttributes(
     attributes: Map<String, Any>,

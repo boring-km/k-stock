@@ -1,4 +1,4 @@
-package study.kstock.stockapi.user
+package study.kstock.stockapi.domain.user
 
 enum class Role(
     private var key: String,
