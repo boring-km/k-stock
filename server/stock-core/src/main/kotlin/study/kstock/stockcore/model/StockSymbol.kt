@@ -5,12 +5,12 @@ import javax.persistence.*
 @Entity
 @Table(name = "StockSymbol")
 data class StockSymbol(
-    @Column(length = 10) private var symbol: String,
-    @Column(length = 100) private var name: String,
+    @Column(length = 10) var symbol: String,
+    @Column(length = 100) var name: String,
 
     @ManyToOne
     @JoinColumn(name = "marketId")
-    private var stockMarket: StockMarket,
+    var stockMarket: StockMarket,
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

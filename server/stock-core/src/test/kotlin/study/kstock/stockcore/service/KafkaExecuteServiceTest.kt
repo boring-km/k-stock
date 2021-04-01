@@ -41,7 +41,7 @@ class KafkaExecuteServiceTest {
 
         // when 주식 데이터 업데이트 후 다시 조회했을 때
         commandMappingService.execute(command, data)
-        val result = testStockDataRepository.findBySymbolName(symbol).getLastPrice()
+        val result = testStockDataRepository.findBySymbolName(symbol).lastPrice
 
         // then 그 값이 12.36이 맞다면 테스트 성공
         val expectedLastPrice = 12.36
