@@ -7,7 +7,7 @@ import study.kstock.stockcore.model.StockDataRepository
 import javax.annotation.Resource
 
 @Service
-class Search20StockDataArray: SearchStockService<StockData> {
+class `20StockDataSearching`: StockSearchingService<StockData> {
 
     @Resource
     private lateinit var stockDataRepository: StockDataRepository

@@ -6,7 +6,7 @@ import study.kstock.stockcore.model.StockMarketRepository
 import javax.annotation.Resource
 
 @Service
-class SearchMarketListByRegion: SearchStockService<StockMarket> {
+class MarketListByRegionSearching: StockSearchingService<StockMarket> {
     @Resource
     private lateinit var stockMarketRepository: StockMarketRepository
 
