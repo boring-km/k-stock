@@ -5,7 +5,7 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.slf4j.Logger
 import org.springframework.boot.test.context.SpringBootTest
-import study.kstock.stockcore.service.search.`20StockDataSearching`
+import study.kstock.stockcore.service.search.TwentyStockDataSearching
 import study.kstock.stockcore.service.search.MarketListByRegionSearching
 import javax.annotation.Resource
 
@@ -16,7 +16,7 @@ class StockServiceTest {
     private lateinit var searchMarketListByRegion: MarketListByRegionSearching
 
     @Resource
-    private lateinit var search20StockDataSearching: `20StockDataSearching`
+    private lateinit var searchTwentyStockDataSearching: TwentyStockDataSearching
 
     private val logger: Logger = org.slf4j.LoggerFactory.getLogger(StockServiceTest::class.java)
 
@@ -45,7 +45,7 @@ class StockServiceTest {
         val startIndex = 0
 
         // when
-        val result = search20StockDataSearching.search(marketName, startIndex)
+        val result = searchTwentyStockDataSearching.search(marketName, startIndex)
         result.forEach { stockData ->
             logger.info("$marketName StockData: $stockData")
         }
