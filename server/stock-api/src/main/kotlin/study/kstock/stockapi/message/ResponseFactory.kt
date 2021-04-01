@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity
 class ResponseFactory {
 
     companion object {
-        fun createResponse(result: Array<Any>): ResponseEntity<Array<Any>> {
+        fun <T> createResponse(result: MutableList<T>): ResponseEntity<MutableList<T>> {
             val status = if (result.isEmpty()) HttpStatus.NOT_FOUND else HttpStatus.OK
             return ResponseEntity(result, status)
         }

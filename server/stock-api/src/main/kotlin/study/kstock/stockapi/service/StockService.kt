@@ -40,15 +40,15 @@ class StockService {
         )
     }
 
-    suspend fun getArrayOf20Stocks(market: String, start: Int): Array<Any> {
+    suspend fun getArrayOf20Stocks(market: String, start: Int): MutableList<Any> {
         return getResultToUseDefaultGetTo("$coreURL/stock/list/$market/$start")
     }
 
-    suspend fun getMarketListBy(region: String): Array<Any> {
+    suspend fun getMarketListBy(region: String): MutableList<Any> {
         return getResultToUseDefaultGetTo("$coreURL/market/list/$region")
     }
 
-    private suspend fun getResultToUseDefaultGetTo(uri: String): Array<Any> {
+    private suspend fun getResultToUseDefaultGetTo(uri: String): MutableList<Any> {
         return webClient
             .mutate()
             .build()

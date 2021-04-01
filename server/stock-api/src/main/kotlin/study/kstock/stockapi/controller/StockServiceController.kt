@@ -18,14 +18,14 @@ class StockServiceController {  // stock-core 서버에 요청하여 결과를 �
     private lateinit var stockService: StockService
 
     @GetMapping("market/list/{region}")
-    suspend fun getMarketListByRegion(@PathVariable region: String): ResponseEntity<Array<Any>> {
+    suspend fun getMarketListByRegion(@PathVariable region: String): ResponseEntity<MutableList<Any>> {
         val result = stockService.getMarketListBy(region)
         return ResponseFactory.createResponse(result)
     }
 
     @GetMapping("stock/list/{market}/{start}")
-    suspend fun getArrayOf20Stocks(@PathVariable market: String, @PathVariable start: Int): ResponseEntity<Array<Any>> {
-        val result: Array<Any> = stockService.getArrayOf20Stocks(market, start)
+    suspend fun getArrayOf20Stocks(@PathVariable market: String, @PathVariable start: Int): ResponseEntity<MutableList<Any>> {
+        val result = stockService.getArrayOf20Stocks(market, start)
         return ResponseFactory.createResponse(result)
     }
 
