@@ -49,13 +49,12 @@ class StockService {
     }
 
     private suspend fun getResultToUseDefaultGetTo(uri: String): Array<Any> {
-        val result = webClient
+        return webClient
             .mutate()
             .build()
             .get()
             .uri(uri)
             .retrieve()
-            .awaitBody<Array<Any>>()
-        if (result.isNotEmpty()) return result else throw IllegalArgumentException("없음")
+            .awaitBody()
     }
 }
