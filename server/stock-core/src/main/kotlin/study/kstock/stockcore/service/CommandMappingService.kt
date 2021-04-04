@@ -3,6 +3,7 @@ package study.kstock.stockcore.service
 import org.springframework.stereotype.Service
 import study.kstock.stockcore.model.Commander
 import study.kstock.stockcore.service.save.StockDataSaving
+import study.kstock.stockcore.service.save.StockSymbolSaving
 import javax.annotation.Resource
 import kotlin.jvm.Throws
 
@@ -10,7 +11,7 @@ import kotlin.jvm.Throws
 class CommandMappingService {
 
     @Resource private lateinit var dataStockDataSaving: StockDataSaving
-    @Resource private lateinit var symbolStockDataSaving: StockDataSaving
+    @Resource private lateinit var symbolStockDataSaving: StockSymbolSaving
 
     @Throws(IllegalArgumentException::class)
     fun execute(command: Commander, data: Any) {
