@@ -33,7 +33,7 @@ class StockPriceService {
 
     fun getRecentPriceArrayOf(targetStockNameArray: Array<String>, region: String): Array<BigDecimal> {
         var stockArrayString = ""
-        targetStockNameArray.forEach { name -> stockArrayString += "$name%2C" }
+        targetStockNameArray.forEach { name -> stockArrayString += name + "%2C" }
         stockArrayString = stockArrayString.substring(0, stockArrayString.length-3)
 
         val request: HttpRequest = HttpRequest.newBuilder()
@@ -54,4 +54,44 @@ class StockPriceService {
         }
         return stockInfoArray
     }
+
+
+    fun getRecentStockDataArrayOf(startNum :Int, endNum :Int): ArrayList<String> {
+        val url = "https://finviz.com/screener.ashx?v=111&f=exch_nasd,geo_usa&ft=4&r="
+        val priceLsit = ArrayList<String>()
+        var page = 1+(startNum-1)*20
+
+        for(num in startNum..endNum) {
+            val newUrl = url + page;
+            val document = Jsoup.connect(newUrl).get().body()
+            val parentsOne = document.getElementsByClass("table-light-row-cp")
+            val parentsTwo = document.getElementsByClass("table-dark-row-cp")
+
+            for(parent in parentsOne){
+                val price:String = parent.child(8).text().toString()
+                val change:String = parent.child(9).text().toString()
+                val lastPrice: BigDecimal = BigDecimal(price)/(BigDecimal.ONE+(BigDecimal(change.substring(0,change.length-1))*BigDecimal(0.01)));
+
+                priceLsit.add(parent.child(1).text()) //symbol
+                priceLsit.add(price)
+                priceLsit.add(change)
+                priceLsit.add(lastPrice.toString())
+            }
+
+            for(parent in parentsTwo){
+                val price:String = parent.child(8).text().toString()
+                val change:String = parent.child(9).text().toString()
+                val lastPrice: BigDecimal = BigDecimal(price)/(BigDecimal.ONE+(BigDecimal(change.substring(0,change.length-1))*BigDecimal(0.01)));
+
+                priceLsit.add(parent.child(1).text()) //symbol
+                priceLsit.add(price)
+                priceLsit.add(change)
+                priceLsit.add(lastPrice.toString())
+            }
+            page += 20
+        }
+
+        return priceLsit
+    }
+
 }
