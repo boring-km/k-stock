@@ -4,8 +4,12 @@ import org.json.JSONArray
 import org.json.JSONObject
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
+import org.jsoup.select.Elements
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
+import study.kstock.stockexternal.domain.StockData
+import study.kstock.stockexternal.domain.StockMarket
+import study.kstock.stockexternal.domain.StockSymbol
 import java.math.BigDecimal
 import java.net.URI
 import java.net.http.HttpClient
@@ -56,42 +60,37 @@ class StockPriceService {
     }
 
 
-    fun getRecentStockDataArrayOf(startNum :Int, endNum :Int): ArrayList<String> {
-        val url = "https://finviz.com/screener.ashx?v=111&f=exch_nasd,geo_usa&ft=4&r="
-        val priceLsit = ArrayList<String>()
-        var page = 1+(startNum-1)*20
+    fun getRecentStockDataListOf(market: String, region: String, startNum :Int, endNum :Int): ArrayList<StockData> {
+        val url = "https://finviz.com/screener.ashx?v=111&f=exch_${market},geo_${region}&ft=4&r="
+        val stockDataList = ArrayList<StockData>()
+        var page = 1 + (startNum-1) * 20    // 한 페이지에 20개씩 있음
 
         for(num in startNum..endNum) {
-            val newUrl = url + page;
+            val newUrl = url + page
             val document = Jsoup.connect(newUrl).get().body()
+            val stockDataElements = Elements()
             val parentsOne = document.getElementsByClass("table-light-row-cp")
             val parentsTwo = document.getElementsByClass("table-dark-row-cp")
+            stockDataElements.addAll(parentsOne)
+            stockDataElements.addAll(parentsTwo)
 
-            for(parent in parentsOne){
-                val price:String = parent.child(8).text().toString()
-                val change:String = parent.child(9).text().toString()
-                val lastPrice: BigDecimal = BigDecimal(price)/(BigDecimal.ONE+(BigDecimal(change.substring(0,change.length-1))*BigDecimal(0.01)));
-
-                priceLsit.add(parent.child(1).text()) //symbol
-                priceLsit.add(price)
-                priceLsit.add(change)
-                priceLsit.add(lastPrice.toString())
-            }
-
-            for(parent in parentsTwo){
-                val price:String = parent.child(8).text().toString()
-                val change:String = parent.child(9).text().toString()
-                val lastPrice: BigDecimal = BigDecimal(price)/(BigDecimal.ONE+(BigDecimal(change.substring(0,change.length-1))*BigDecimal(0.01)));
-
-                priceLsit.add(parent.child(1).text()) //symbol
-                priceLsit.add(price)
-                priceLsit.add(change)
-                priceLsit.add(lastPrice.toString())
+            for(parent in stockDataElements){
+                val symbol = parent.child(1).text()
+                val name = parent.child(3).text()
+                val lastPrice = BigDecimal(parent.child(8).text())
+                val percentChange = BigDecimal(parent.child(9).text().substringBefore('%'))
+                val priceChange = lastPrice - lastPrice / (BigDecimal.ONE + (percentChange * BigDecimal(0.01)))
+                val stockData = StockData(
+                    StockSymbol(symbol, name,
+                        StockMarket(market, region)),
+                    lastPrice, priceChange, percentChange
+                )
+                stockDataList.add(stockData)
             }
             page += 20
         }
 
-        return priceLsit
+        return stockDataList
     }
 
 }

@@ -17,7 +17,7 @@ class StockPriceGetTest {
     @Resource
     lateinit var stockPriceService: StockPriceService
 
-    @DisplayName("AEVA_주식의_현재_가격은_15.08달러다")
+    @DisplayName("AEVA 주식의 현재 가격은 15.08달러다")
     @Test
     internal fun getRecentPriceTest() {
         val resultPrice = stockPriceService.getRecentPriceOf("AEVA")
@@ -25,7 +25,7 @@ class StockPriceGetTest {
         assertThat(resultPrice).isEqualTo(12.31)
     }
 
-    @DisplayName("아마존_애플_AEVA_주식의_현재_주가를_가져온다")
+    @DisplayName("아마존 애플 AEVA 주식의 현재 주가를 가져온다")
     @Test
     internal fun getRecentPriceArrayTest() {
         val targetStockNameArray = arrayOf("AMZN", "AAPL", "AEVA")
@@ -34,21 +34,24 @@ class StockPriceGetTest {
         assertThat(resultPriceArray).hasSize(3)
     }
 
-    @DisplayName("1페이지부터_10페이지까지_주가데이터를_웹크롤링해서_가져오는데 걸린 시간은 10초미만이다")
+    @DisplayName("1페이지부터 157페이지 끝까지 USA 지역의 나스닥 주식데이터를 웹크롤링해서 가져오는데 걸리는 시간은 130초 ~ 150초 사이이다")
     @Test
     internal fun getStockDataTimeCheckTest() {
         // given
+        val market = "nasd"
+        val region = "usa"
         val startNum = 1
-        val endNum = 10
+        val endNum = 157
 
         // when
         val startTime = System.currentTimeMillis()
-        val stockDataArray = stockPriceService.getRecentStockDataArrayOf(startNum,endNum)
-        logger.info("주가 데이터 : $stockDataArray")
+        val stockDataList = stockPriceService.getRecentStockDataListOf(market, region, startNum, endNum)
         val endTime = System.currentTimeMillis()
         val timeTaken = endTime-startTime
+        logger.info("걸린시간 ${timeTaken / 1000}초")
+        stockDataList.forEach { stockData -> logger.info(stockData.toString()) }
 
         // then
-        assertThat(timeTaken).isLessThan(10000)
+        assertThat(timeTaken).isBetween(1300000, 1500000)
     }
 }
