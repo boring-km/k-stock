@@ -2,7 +2,6 @@ package study.kstockapp
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
@@ -11,15 +10,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.gson.JsonArray
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import study.kstockapp.databinding.ActivityMainBinding
+import study.kstockapp.domain.StockData
 import study.kstockapp.network.KStockService
 import study.kstockapp.network.RetrofitClient
+import study.kstockapp.service.KStockServiceImpl
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,6 +23,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private lateinit var binding: ActivityMainBinding
+    private val service = RetrofitClient.getInstance().create(KStockService::class.java)
+    private val stockService = KStockServiceImpl()  // TODO 나중에 Dagger로
+    private var index = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.main = this
 
-        val testStockItem = arrayOf("NYSE", "NASDAQ", "AMEX")
+        val testStockItem = arrayOf("nyse", "nasd", "amex")
         binding.spinnerStockMarket.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, testStockItem)
         binding.spinnerStockMarket.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 
@@ -55,15 +53,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // 샘플 데이터 삽입
-        val sampleStockData = arrayListOf<StockData>()
-        for (i in 1..2) {
-            sampleStockData.add(StockData("주식데이터 $i 번째", "NYSE", 30.25, 0.0, 0.0))
-        }
-
         binding.recyclerviewSearchedStock.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
-            adapter = StockAdapter(sampleStockData) { stock ->
+            adapter = StockAdapter(ArrayList()) { stock: StockData ->
                 Toast.makeText(this@MainActivity, "$stock", Toast.LENGTH_SHORT).show()
                 val intent = Intent(baseContext, StockDetail::class.java)
                 intent.putExtra("obj", stock)
@@ -71,35 +63,18 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val service = RetrofitClient.getInstance().create(KStockService::class.java)
-
         binding.editTextStockName.setOnEditorActionListener { _, actionId, _ ->
             when (actionId) {
                 EditorInfo.IME_ACTION_SEARCH -> {
-                    service.getStockListByMarketWithIndex(binding.spinnerStockMarket.selectedItem.toString())
-                        .enqueue(object : Callback<StockData> {
-                            override fun onResponse(
-                                call: Call<StockData>,
-                                response: Response<StockData>
-                            ) {
-                                if (response.isSuccessful()) {
-                                    (binding.recyclerviewSearchedStock.adapter as StockAdapter).resetRecyclerView()
-                                    Log.d(TAG, "onResponse body: ${response.body()}")
+                    val market = binding.spinnerStockMarket.selectedItem.toString()
+                    // TODO("메인 스레드에서 동기적으로 구현해서 현재 오류 발생함")
+                    //  -> Handler 스레드를 사용하거나, enqueue()를 사용한 콜백으로 구현 필요함
+                    val result = stockService.getStockListByMarketWithIndex(service, market, index)
+                    // TODO("result 값을 사용해서 RecyclerView 보여주기")
+                    binding.recyclerviewSearchedStock.apply {
+                        (adapter as StockAdapter).addAll(result)
+                    }
 
-                                } else {
-                                    Log.d(TAG, "response Code : ${response.code()}")
-                                }
-                            }
-
-                            override fun onFailure(call: Call<StockData>, t: Throwable) {
-                                Toast.makeText(
-                                    applicationContext,
-                                    "Retrofit Request Error",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                Log.d(TAG, "onFailure: " + t.printStackTrace())
-                            }
-                        })
                     return@setOnEditorActionListener true
                 }
                 else -> {

@@ -1,10 +1,10 @@
 package study.kstockapp
 
-import android.content.ClipData.Item
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import study.kstockapp.databinding.CardLayoutBinding
+import study.kstockapp.domain.StockData
 
 
 class StockAdapter(
@@ -24,6 +24,10 @@ class StockAdapter(
         }
         return viewHolder
 
+    }
+
+    fun addAll(data: List<StockData>) {
+        (items as ArrayList<StockData>).addAll(data)
     }
 
     fun updateRecyclerView(mItems: List<StockData>) {

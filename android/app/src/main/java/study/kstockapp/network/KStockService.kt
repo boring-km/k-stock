@@ -3,11 +3,11 @@ package study.kstockapp.network
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
-import study.kstockapp.StockData
+import study.kstockapp.domain.StockData
 
 interface KStockService {
-    @GET("stock/list/{market}/0")
-    fun getStockListByMarketWithIndex(@Path("market") marketString : String) : Call<StockData>
+    @GET("stock/list/{market}/{index}")
+    fun getStockListByMarketWithIndex(@Path("market") marketString : String, @Path("index") index: Int) : Call<List<StockData>>
 
     @GET("stock/market/list/{region}")
     fun getStockSymbolListByNation(@Path("region") regionString : String) : Call<StockData>
