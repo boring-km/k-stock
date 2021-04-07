@@ -81,9 +81,9 @@ class StockPriceService {
                 val percentChange = BigDecimal(parent.child(9).text().substringBefore('%'))
                 val priceChange = lastPrice - lastPrice / (BigDecimal.ONE + (percentChange * BigDecimal(0.01)))
                 val stockData = StockData(
-                    StockSymbol(symbol, name,
-                        StockMarket(market, region)),
-                    lastPrice, priceChange, percentChange
+                        StockSymbol(symbol, name,
+                                StockMarket(market, region)),
+                        lastPrice, priceChange, percentChange
                 )
                 stockDataList.add(stockData)
             }
@@ -91,6 +91,28 @@ class StockPriceService {
         }
 
         return stockDataList
+    }
+
+    fun getRecentSymbolListOf(market: String): Array<StockSymbol?> {
+        val request = HttpRequest.newBuilder()
+                .uri(URI.create("https://twelve-data1.p.rapidapi.com/stocks?exchange=$market&format=json"))
+                .header("x-rapidapi-key", rapidAPIKey)
+                .header("x-rapidapi-host", "twelve-data1.p.rapidapi.com")
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build()
+        val response: HttpResponse<String> = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString())
+
+        val resultArray: JSONArray = JSONObject(response.body()).getJSONArray("data")
+        val stockSymbolArray = arrayOfNulls<StockSymbol>(resultArray.length())
+        for (i in 0 until resultArray.length()) {
+            val symbol = resultArray.getJSONObject(i).getString("symbol")
+            val name = resultArray.getJSONObject(i).getString("name")
+            val market = resultArray.getJSONObject(i).getString("exchange")
+            val region = resultArray.getJSONObject(i).getString("country")
+            val stockSymbol = StockSymbol(symbol, name, StockMarket(market, region))
+            stockSymbolArray[i] = stockSymbol
+        }
+        return stockSymbolArray
     }
 
 }

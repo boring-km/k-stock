@@ -54,4 +54,20 @@ class StockPriceGetTest {
         // then
         assertThat(timeTaken).isBetween(1300000, 1500000)
     }
+
+    @DisplayName("NASDAQ에 해당하는 Symbol관련 데이터를 가져온다")
+    @Test
+    internal fun getSymbolDataTest() {
+        // given
+        val market = "NASDAQ"
+
+        // when
+        val stockSymbolList = stockPriceService.getRecentSymbolListOf(market)
+        val size = stockSymbolList.size
+        stockSymbolList.forEach { stockData -> logger.info(stockData.toString()) }
+        logger.info("크기:$size")
+
+        // then
+        assertThat(stockSymbolList).isNotEmpty
+    }
 }
