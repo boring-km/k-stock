@@ -23,10 +23,4 @@ class StockServiceController {  // stock-core 서버에 요청하여 결과를 �
         return ResponseFactory.createResponse(result)
     }
 
-    @GetMapping("stock/list/{market}/{start}")
-    suspend fun getArrayOf20Stocks(@PathVariable market: String, @PathVariable start: Int): ResponseEntity<MutableList<Any>> {
-        val result = stockService.getArrayOf20Stocks(market, start)
-        return ResponseFactory.createResponse(result)
-    }
-
 }
