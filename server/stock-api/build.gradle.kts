@@ -38,6 +38,9 @@ dependencies {
     // tomcat
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 
+    // Crawling
+    implementation("org.jsoup:jsoup:1.13.1")
+
     // swagger
     @Suppress("DEPRECATION")
     compile( group= "io.springfox", name= "springfox-swagger-ui", version= "2.9.2")
