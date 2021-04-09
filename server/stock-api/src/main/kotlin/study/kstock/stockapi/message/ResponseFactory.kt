@@ -10,5 +10,10 @@ class ResponseFactory {
             val status = if (result.isEmpty()) HttpStatus.NOT_FOUND else HttpStatus.OK
             return ResponseEntity(result, status)
         }
+
+        fun <T> createResponse(result: T): ResponseEntity<T> {
+            val status = if (result == null) HttpStatus.NOT_FOUND else HttpStatus.OK
+            return ResponseEntity(result, status)
+        }
     }
 }
