@@ -1,8 +1,13 @@
 package study.kstockapp
 
 import org.awaitility.kotlin.await
+import org.awaitility.kotlin.until
 import org.awaitility.kotlin.untilNotNull
 import org.junit.Test
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import study.kstockapp.domain.StockData
 import study.kstockapp.network.KStockService
 import study.kstockapp.network.RetrofitClient
 import study.kstockapp.service.DaggerKStockServiceComponent
@@ -10,20 +15,35 @@ import study.kstockapp.service.DaggerKStockServiceComponent
 class RetrofitTest {
 
     private val service = RetrofitClient.getInstance().create(KStockService::class.java)
-    private val stockService = DaggerKStockServiceComponent.create().getServiceImpl()
 
     @Test
-    fun 주식_거래소_목록_불러오기_테스트() {
+    fun nasd_거래소의_주식을_1부터_가져오면_데이터가_존재한다() {
 
         // given
         val market = "nasd"
         val index = 1
 
         // when
-        val result = stockService.getStockListByMarketWithIndex(service, market, index)
-        await untilNotNull { result }
+        var resultList: ArrayList<StockData>? = null
+        service.getStockListByMarketWithIndex(market, index).enqueue(object :
+            Callback<List<StockData>> {
+            override fun onResponse(
+                call: Call<List<StockData>>,
+                response: Response<List<StockData>>
+            ) {
+                if (response.isSuccessful) {
+                    resultList = response.body() as ArrayList<StockData>
+                }
+            }
+
+            override fun onFailure(call: Call<List<StockData>>, t: Throwable) {
+                print("에러")
+            }
+        })
+        await untilNotNull  { resultList }
+        resultList!!.forEach { result -> println(result) }
 
         // then
-        assert(result.isNotEmpty())
+        assert(resultList!!.isNotEmpty())
     }
 }

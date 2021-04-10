@@ -16,15 +16,17 @@ import study.kstockapp.network.KStockService
 import study.kstockapp.network.RetrofitClient
 import study.kstockapp.service.DaggerKStockServiceComponent
 import study.kstockapp.service.KStockServiceImpl
+
 class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "MainActivity"
     }
 
-    private lateinit var binding : ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
     private val service = RetrofitClient.getInstance().create(KStockService::class.java)
-    private val stockService : KStockServiceImpl = DaggerKStockServiceComponent.create().getServiceImpl()
+    private val stockService: KStockServiceImpl =
+        DaggerKStockServiceComponent.create().getServiceImpl()
     private var index = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,23 +68,16 @@ class MainActivity : AppCompatActivity() {
         binding.editTextStockName.setOnEditorActionListener { _, actionId, _ ->
             when (actionId) {
                 EditorInfo.IME_ACTION_SEARCH -> {
-                    val market =
-                        when (binding.spinnerStockMarket.selectedItem.toString()){
-                            "NYSE" -> "nyse"
-                            "NASDAQ" -> "nasd"
-                            "AMEX" -> "amex"
-                            else -> return@setOnEditorActionListener false
-                        }
+                    stockService.getStockListByMarketWithIndex(service, index, binding)
 
-                    val result = stockService.getStockListByMarketWithIndex(service, market, index)
-
-                    binding.recyclerviewSearchedStock.apply {
-                        (adapter as StockAdapter).addAll(result)
-                    }
                     return@setOnEditorActionListener true
                 }
                 else -> {
-                    Toast.makeText(applicationContext, "different Action caught", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        applicationContext,
+                        "different Action caught",
+                        Toast.LENGTH_SHORT
+                    ).show()
                     return@setOnEditorActionListener true
                 }
             }
