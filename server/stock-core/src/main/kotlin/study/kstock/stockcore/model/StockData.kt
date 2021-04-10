@@ -6,14 +6,17 @@ import javax.persistence.*
 @Entity
 @Table(name = "StockData")
 data class StockData(
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private var id: Int,
-
     @ManyToOne
     @JoinColumn(name = "symbolId")
-    private var stockSymbol: StockSymbol,
+    var stockSymbol: StockSymbol,
 
-    @Column private var lastPrice: Double,
-    @Column private var priceChange: Double,
-    @Column private var percentChange: Double): Serializable
+    @Column var lastPrice: Double,
+    @Column var priceChange: Double,
+    @Column var percentChange: Double,
+) : Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private var id: Int = 0
+
+}
