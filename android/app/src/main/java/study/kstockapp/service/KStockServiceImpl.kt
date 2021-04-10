@@ -1,9 +1,13 @@
 package study.kstockapp.service
 
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import study.kstockapp.domain.StockData
 import study.kstockapp.network.KStockService
+import javax.inject.Inject
 
-class KStockServiceImpl {
+class KStockServiceImpl @Inject constructor() {
 
     fun getStockListByMarketWithIndex (
         service: KStockService,
@@ -11,17 +15,21 @@ class KStockServiceImpl {
         index: Int
     ): ArrayList<StockData> {
         val result = ArrayList<StockData>()
-        val stockListResponse = service.getStockListByMarketWithIndex(market, index).execute()
-        if (stockListResponse.isSuccessful) {
-            val responseList = stockListResponse.body() as List<StockData>
-            println("주식 데이터 출력")
-            responseList.forEach { stockData ->
-                println("$stockData")
+        service.getStockListByMarketWithIndex(market, index).enqueue(object : Callback<List<StockData>> {
+            override fun onResponse(
+                call: Call<List<StockData>>,
+                response: Response<List<StockData>>
+            ) {
+                if (response.isSuccessful) {
+                    val responseList = response.body() as List<StockData>
+                    result.addAll(responseList)
+                }
             }
-            result.addAll(responseList)
-        } else {
-            println("response Code : ${stockListResponse.code()}")
-        }
+
+            override fun onFailure(call: Call<List<StockData>>, t: Throwable) {
+                println("Print Stack Trace : ${t.printStackTrace()}")
+            }
+        })
         return result
     }
 }

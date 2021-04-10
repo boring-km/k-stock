@@ -14,17 +14,17 @@ import study.kstockapp.databinding.ActivityMainBinding
 import study.kstockapp.domain.StockData
 import study.kstockapp.network.KStockService
 import study.kstockapp.network.RetrofitClient
+import study.kstockapp.service.DaggerKStockServiceComponent
 import study.kstockapp.service.KStockServiceImpl
-
 class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG = "MainActivity"
     }
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding : ActivityMainBinding
     private val service = RetrofitClient.getInstance().create(KStockService::class.java)
-    private val stockService = KStockServiceImpl()  // TODO 나중에 Dagger로
+    private val stockService : KStockServiceImpl = DaggerKStockServiceComponent.create().getServiceImpl()
     private var index = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,8 +33,8 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.main = this
 
-        val testStockItem = arrayOf("nyse", "nasd", "amex")
-        binding.spinnerStockMarket.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, testStockItem)
+        val testStockItem = arrayOf("NYSE", "NASDAQ", "AMEX")
+        binding.spinnerStockMarket.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, testStockItem)
         binding.spinnerStockMarket.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -66,15 +66,19 @@ class MainActivity : AppCompatActivity() {
         binding.editTextStockName.setOnEditorActionListener { _, actionId, _ ->
             when (actionId) {
                 EditorInfo.IME_ACTION_SEARCH -> {
-                    val market = binding.spinnerStockMarket.selectedItem.toString()
-                    // TODO("메인 스레드에서 동기적으로 구현해서 현재 오류 발생함")
-                    //  -> Handler 스레드를 사용하거나, enqueue()를 사용한 콜백으로 구현 필요함
+                    val market =
+                        when (binding.spinnerStockMarket.selectedItem.toString()){
+                            "NYSE" -> "nyse"
+                            "NASDAQ" -> "nasd"
+                            "AMEX" -> "amex"
+                            else -> return@setOnEditorActionListener false
+                        }
+
                     val result = stockService.getStockListByMarketWithIndex(service, market, index)
-                    // TODO("result 값을 사용해서 RecyclerView 보여주기")
+
                     binding.recyclerviewSearchedStock.apply {
                         (adapter as StockAdapter).addAll(result)
                     }
-
                     return@setOnEditorActionListener true
                 }
                 else -> {
