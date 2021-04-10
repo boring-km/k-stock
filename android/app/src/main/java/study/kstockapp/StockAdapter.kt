@@ -27,7 +27,9 @@ class StockAdapter(
     }
 
     fun addAll(data: List<StockData>) {
+        items = emptyList()
         (items as ArrayList<StockData>).addAll(data)
+        notifyDataSetChanged()
     }
 
     fun updateRecyclerView(mItems: List<StockData>) {
