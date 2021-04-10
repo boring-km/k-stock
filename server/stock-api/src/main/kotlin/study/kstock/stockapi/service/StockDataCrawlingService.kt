@@ -34,8 +34,8 @@ class StockDataCrawlingService {
         return getStockDataBy(stockDataElement[0], foundMarket)
     }
 
-    fun getRecentStockDataListOf(region: String, market: String, start: Int): ArrayList<StockData>? {
-        val url = "https://finviz.com/screener.ashx?v=111&f=exch_${market},geo_${region}&r=${start}"
+    fun getRecentStockDataListOf(market: String, start: Int): ArrayList<StockData>? {
+        val url = "https://finviz.com/screener.ashx?v=111&f=exch_${market}&r=${start}"
         val stockDataList = ArrayList<StockData>()
         val document = Jsoup.connect(url).get().body()
         val stockDataElements = Elements()
