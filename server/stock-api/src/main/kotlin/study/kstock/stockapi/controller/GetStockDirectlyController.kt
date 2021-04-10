@@ -21,9 +21,9 @@ class GetStockDirectlyController {
         return ResponseFactory.createResponse(result)
     }
 
-    @GetMapping("stock/list/{region}/{market}/{start}")
-    suspend fun getArrayOf20Stocks(@PathVariable region: String, @PathVariable market: String, @PathVariable start: Int): ResponseEntity<ArrayList<StockData>?> {
-        val result = stockDataCrawlingService.getRecentStockDataListOf(region, market, start)
+    @GetMapping("stock/list/{market}/{start}")
+    suspend fun getArrayOf20Stocks(@PathVariable market: String, @PathVariable start: Int): ResponseEntity<ArrayList<StockData>?> {
+        val result = stockDataCrawlingService.getRecentStockDataListOf(market, start)
         return ResponseFactory.createResponse(result)
     }
 }
