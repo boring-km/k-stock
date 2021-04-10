@@ -27,7 +27,7 @@ class StockAdapter(
     }
 
     fun addAll(data: List<StockData>) {
-        items = emptyList()
+        items = ArrayList()
         (items as ArrayList<StockData>).addAll(data)
         notifyDataSetChanged()
     }
