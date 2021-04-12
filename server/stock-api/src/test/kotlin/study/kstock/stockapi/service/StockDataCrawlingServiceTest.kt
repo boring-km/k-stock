@@ -29,12 +29,11 @@ internal class StockDataCrawlingServiceTest {
         assertThat(result).isNotNull
     }
 
-    @DisplayName("인덱스 1번부터 20번까지 USA 지역의 나스닥 주식데이터를 웹크롤링해서 가져오는데 걸리는 시간은 3초 미만이다")
+    @DisplayName("인덱스 1번부터 20번까지 나스닥 주식데이터를 웹크롤링해서 가져오는데 걸리는 시간은 3초 미만이다")
     @Test
     internal fun getStockDataTimeCheckTest() {
         // given
         val market = "nasd"
-        val region = "usa"
         val start = 1
 
         // when
@@ -42,7 +41,7 @@ internal class StockDataCrawlingServiceTest {
         val endTime = System.currentTimeMillis()
         val timeTaken = endTime - startTime
         logger.info("걸린시간 ${timeTaken.toDouble() / 1000}초")
-        stockDataCrawlingService.getRecentStockDataListOf(region, market, start)
+        stockDataCrawlingService.getRecentStockDataListOf(market, start)
             ?.forEach { stockData -> logger.info(stockData.toString()) }
 
         // then
