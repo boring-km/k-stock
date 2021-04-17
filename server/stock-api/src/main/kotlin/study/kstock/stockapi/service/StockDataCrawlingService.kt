@@ -13,7 +13,7 @@ import java.math.BigDecimal
 @Service
 class StockDataCrawlingService {
 
-    @Cacheable(value = ["searchCache"])
+    @Cacheable(cacheNames = ["search"], key = "#symbolString", cacheManager = "redisCacheManager")
     fun searchStockData(symbolString: String): StockData? {
 
         // TODO
@@ -32,7 +32,6 @@ class StockDataCrawlingService {
             }
         }
         if (stockDataElement.isEmpty()) return null
-
         return getStockDataBy(stockDataElement[0], foundMarket)
     }
 
