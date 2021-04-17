@@ -3,6 +3,7 @@ package study.kstock.stockapi.service
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import org.jsoup.select.Elements
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import study.kstock.stockapi.domain.StockData
 import study.kstock.stockapi.domain.StockMarket
@@ -12,6 +13,7 @@ import java.math.BigDecimal
 @Service
 class StockDataCrawlingService {
 
+    @Cacheable(value = ["searchCache"])
     fun searchStockData(symbolString: String): StockData? {
 
         // TODO
