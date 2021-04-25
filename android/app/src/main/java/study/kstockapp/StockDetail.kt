@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import study.kstockapp.databinding.StockDetailBinding
+import study.kstockapp.domain.StockData
 
 class StockDetail : AppCompatActivity() {
 
@@ -25,17 +26,17 @@ class StockDetail : AppCompatActivity() {
         val intent = intent
         val stockData = intent.getSerializableExtra("obj") as StockData
 
-        Log.d(TAG, "stockData.stockMarket: ${stockData.stockMarket}")
-        Log.d(TAG, "stockData.stockName: ${stockData.stockName}")
-        Log.d(TAG, "stockData.currentPrice: ${stockData.currentPrice}")
+        Log.d(TAG, "stockData.stockSymbol: ${stockData.stockSymbol}")
+        Log.d(TAG, "stockData.stockSymbolName: ${stockData.stockSymbol.name}")
+        Log.d(TAG, "stockData.lastPrice: ${stockData.lastPrice}")
         Log.d(TAG, "stockData.priceChange: ${stockData.priceChange}")
         Log.d(TAG, "stockData.percentChange: ${stockData.percentChange}")
 
-        binding.stockname.text = stockData.stockMarket
-        binding.stockmarketValue.text = stockData.stockName
-        binding.currentpriceValue.text = stockData.currentPrice.toString()
-        binding.pricechangeValue.text = stockData.priceChange.toString()
-        binding.percentchangeValue.text = stockData.percentChange.toString()
+        binding.stockname.text = stockData.stockSymbol.toString()
+        binding.stockmarketValue.text = stockData.stockSymbol.name
+        binding.currentpriceValue.text = stockData.lastPrice.toPlainString()
+        binding.pricechangeValue.text = stockData.priceChange.toPlainString()
+        binding.percentchangeValue.text = stockData.percentChange.toPlainString()
 
     }
 }

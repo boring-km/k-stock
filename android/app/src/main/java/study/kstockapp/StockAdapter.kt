@@ -4,9 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import study.kstockapp.databinding.CardLayoutBinding
+import study.kstockapp.domain.StockData
 
-class StockAdapter(val items: List<StockData>,
-                   private val clickListener: (stockData: StockData) -> Unit) :
+
+class StockAdapter(
+    private var items: List<StockData>,
+    private val clickListener: (stockData: StockData) -> Unit
+) :
     RecyclerView.Adapter<StockAdapter.StockViewHolder>() {
 
     class StockViewHolder(val binding: CardLayoutBinding) : RecyclerView.ViewHolder(binding.root)
@@ -20,6 +24,22 @@ class StockAdapter(val items: List<StockData>,
         }
         return viewHolder
 
+    }
+
+    fun addAll(data: List<StockData>) {
+        items = ArrayList()
+        (items as ArrayList<StockData>).addAll(data)
+        notifyDataSetChanged()
+    }
+
+    fun updateRecyclerView(mItems: List<StockData>) {
+        items = mItems
+        notifyDataSetChanged()
+    }
+
+    fun resetRecyclerView(){
+        items = emptyList()
+        notifyDataSetChanged()
     }
 
     override fun getItemCount() = items.size

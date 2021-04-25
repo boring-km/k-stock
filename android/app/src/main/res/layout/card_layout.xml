@@ -4,7 +4,7 @@
     <data>
         <variable
             name="stockdata"
-            type="study.kstockapp.StockData" />
+            type="study.kstockapp.domain.StockData" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -20,12 +20,12 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/stockName"
+                android:id="@+id/market_name"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
                 android:layout_weight="1"
                 android:gravity="center_horizontal|center_vertical"
-                android:text="@{stockdata.stockMarket}"
+                android:text="@{stockdata.stockSymbol.stockMarket.market}"
                 tools:text="NASDAQ" />
 
             <LinearLayout
@@ -45,7 +45,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_horizontal|center_vertical"
-                    android:text="@{stockdata.stockName}"
+                    android:text="@{stockdata.stockSymbol.name}"
                     tools:text="TSLA" />
             </LinearLayout>
 
@@ -66,7 +66,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_horizontal|center_vertical"
-                    android:text="@{String.valueOf(stockdata.currentPrice)}"
+                    android:text="@{String.valueOf(stockdata.lastPrice)}"
                     tools:text="654.87" />
             </LinearLayout>
         </LinearLayout>
