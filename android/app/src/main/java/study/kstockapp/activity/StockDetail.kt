@@ -1,9 +1,10 @@
-package study.kstockapp
+package study.kstockapp.activity
 
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import study.kstockapp.R
 import study.kstockapp.databinding.StockDetailBinding
 import study.kstockapp.domain.StockData
 
@@ -17,7 +18,9 @@ class StockDetail : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.stock_detail)
+        binding = DataBindingUtil.setContentView(this,
+            R.layout.stock_detail
+        )
         binding.detail = this
 
         // 원래대로라면 stockdata의 symbolId를 참고해 DB내의 stockdata를 가져왔어야 함.

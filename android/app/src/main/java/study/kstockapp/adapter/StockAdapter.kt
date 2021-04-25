@@ -1,8 +1,9 @@
-package study.kstockapp
+package study.kstockapp.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import study.kstockapp.R
 import study.kstockapp.databinding.CardLayoutBinding
 import study.kstockapp.domain.StockData
 
@@ -18,12 +19,20 @@ class StockAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StockViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.card_layout, parent, false)
-        val viewHolder = StockViewHolder(CardLayoutBinding.bind(view))
+        val viewHolder = StockViewHolder(
+            CardLayoutBinding.bind(view)
+        )
         view.setOnClickListener {
             clickListener.invoke(items[viewHolder.adapterPosition])
         }
         return viewHolder
 
+    }
+
+    fun add(data: StockData) {
+        items = ArrayList()
+        (items as ArrayList<StockData>).add(data)
+        notifyDataSetChanged()
     }
 
     fun addAll(data: List<StockData>) {
