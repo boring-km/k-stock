@@ -1,5 +1,6 @@
 package study.kstockapp.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -32,7 +33,6 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this,
                 R.layout.activity_main
         )
-        binding.main = this
 
         val testStockItem = arrayOf("NYSE", "NASDAQ", "AMEX")
         binding.spinnerStockMarket.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, testStockItem)
@@ -57,7 +57,9 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerviewSearchedStock.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = StockAdapter(ArrayList()) { stock: StockData ->
-                Toast.makeText(applicationContext, stock.stockSymbol.name, Toast.LENGTH_SHORT).show()
+                val intent = Intent(this@MainActivity, DetailWebViewActivity::class.java)
+                intent.putExtra("symbol", stock.stockSymbol.name)
+                startActivity(intent)
             }
         }
 
