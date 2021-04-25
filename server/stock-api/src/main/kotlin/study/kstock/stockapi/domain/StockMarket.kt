@@ -1,3 +1,11 @@
 package study.kstock.stockapi.domain
 
-data class StockMarket(var market: String, var region: String)
+import com.fasterxml.jackson.annotation.JsonCreator
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonTypeInfo
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
+class StockMarket @JsonCreator constructor(
+    @JsonProperty("market") var market: String,
+    @JsonProperty("region") var region: String
+)

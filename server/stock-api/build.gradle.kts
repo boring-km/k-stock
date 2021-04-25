@@ -47,6 +47,10 @@ dependencies {
     @Suppress("DEPRECATION")
     compile( group= "io.springfox", name= "springfox-swagger2", version="2.9.2")
 
+    // redis cache
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+    implementation("org.springframework.boot:spring-boot-starter-cache")
+
     // spring test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
