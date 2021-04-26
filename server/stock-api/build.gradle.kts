@@ -6,11 +6,13 @@ plugins {
     war
     kotlin("jvm") version "1.4.30"
     kotlin("plugin.spring") version "1.4.30"
+
 }
 
 group = "study.kstock"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_15
+apply(plugin = "kotlin-kapt")
 
 repositories {
     mavenCentral()
@@ -29,6 +31,7 @@ dependencies {
 
     // Security
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
+    implementation("org.springframework.boot:spring-boot-starter-security")
 
     // kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -39,6 +42,9 @@ dependencies {
     // UserDB
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
+
+    // Session
+    implementation("org.springframework.session:spring-session-jdbc")
 
     // spring autoreload
     developmentOnly("org.springframework.boot:spring-boot-devtools")
@@ -54,6 +60,7 @@ dependencies {
 
     // spring test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.security:spring-security-test")
 }
 
 tasks.withType<KotlinCompile> {
