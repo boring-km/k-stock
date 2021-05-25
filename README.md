@@ -9,3 +9,5 @@
 
 ### Server 개발 블로그
 - https://codewacky.tistory.com/category/프로젝트%20-%20해외주식알림%20서버
+
+### Jenkins TEST by LMG
