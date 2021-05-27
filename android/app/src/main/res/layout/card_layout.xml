@@ -15,18 +15,20 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent">
 
             <TextView
                 android:id="@+id/stock_name"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="60"
+                android:background="@android:color/transparent"
                 android:maxLines="3"
                 android:padding="5dp"
                 android:text="@{stockdata.stockSymbol.name}"
                 android:textAlignment="viewStart"
-                android:textColor="@color/black"
+                android:textColor="@color/colorPrimaryDark"
                 tools:text="United Microelectronics Corporation United Microelectronics Corporation" />
 
             <TextView
@@ -39,7 +41,7 @@
                 android:minWidth="140dp"
                 android:padding="5dp"
                 android:text="@{String.valueOf(stockdata.lastPrice)}"
-                android:textColor="@color/black"
+                android:textColor="@{((stockdata.priceChange.compareTo(java.math.BigDecimal.ZERO) == 1) ? android.graphics.Color.rgb(232,15,15) : android.graphics.Color.rgb(13,49,237))}"
                 android:textSize="40sp"
                 tools:text="654.87" />
 
@@ -58,6 +60,8 @@
                     android:maxLines="1"
                     android:textAlignment="center"
                     android:textSize="24sp"
+                    android:text="@{String.valueOf(stockdata.priceChange)}"
+                    android:textColor="@{((stockdata.priceChange.compareTo(java.math.BigDecimal.ZERO) == 1) ? android.graphics.Color.rgb(232,15,15) : android.graphics.Color.rgb(13,49,237))}"
                     tools:text="2.45" />
 
                 <TextView
@@ -66,6 +70,8 @@
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:textAlignment="center"
+                    android:text="@{'('+String.valueOf(stockdata.percentChange)+'%'+')'}"
+                    android:textColor="@{((stockdata.priceChange.compareTo(java.math.BigDecimal.ZERO) == 1) ? android.graphics.Color.rgb(232,15,15) : android.graphics.Color.rgb(13,49,237))}"
                     tools:text="(0.50%)" />
             </LinearLayout>
 

@@ -4,10 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import study.kstockapp.R
@@ -25,7 +24,6 @@ class MainActivity : AppCompatActivity() {
     private val service = RetrofitClient.getInstance().create(KStockService::class.java)
     private val stockService: KStockServiceImpl =
             DaggerKStockServiceComponent.create().getServiceImpl()
-    private var index = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,27 +32,7 @@ class MainActivity : AppCompatActivity() {
                 R.layout.activity_main
         )
 
-        val testStockItem = arrayOf("NYSE", "NASDAQ", "AMEX")
-        binding.spinnerStockMarket.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, testStockItem)
-        binding.spinnerStockMarket.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                Toast.makeText(this@MainActivity, "시장 중 하나를 선택해주세요", Toast.LENGTH_SHORT).show()
-            }
-
-            override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-            ) {
-                val bindViewText =
-                        "You pressed position $position, Market ${binding.spinnerStockMarket.selectedItem}"
-                binding.textView.text = bindViewText
-            }
-        }
-
-        binding.recyclerviewSearchedStock.apply {
+        binding.searchedStockRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = StockAdapter(ArrayList()) { stock: StockData ->
                 val intent = Intent(this@MainActivity, DetailWebViewActivity::class.java)
@@ -63,25 +41,28 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        binding.editTextStockName.setOnEditorActionListener { _, actionId, _ ->
-            val searchText = binding.editTextStockName.text.toString()
+        binding.stockNameEditText.setOnEditorActionListener { _, actionId, _ ->
+            val searchText = binding.stockNameEditText.text.toString()
             when (actionId) {
                 EditorInfo.IME_ACTION_SEARCH -> {
-                    if (searchText.isEmpty())
-                        stockService.getStockListByMarketWithIndex(service, index, binding)
-                    else
-                        stockService.getStockBySymbol(service, searchText, binding)
+                    if (searchText.isEmpty()) {
+                        Toast.makeText(applicationContext, "최근 검색 목록을 불러옵니다.", Toast.LENGTH_SHORT).show()
+                        // TODO SharedPreference 사용하기
+                    } else
+                        stockService.searchStock(service, searchText, binding)
                     return@setOnEditorActionListener true
                 }
                 else -> {
-                    Toast.makeText(
-                            applicationContext,
-                            "different Action caught",
-                            Toast.LENGTH_SHORT
-                    ).show()
+                    Toast.makeText(applicationContext, "different Action caught", Toast.LENGTH_SHORT).show()
                     return@setOnEditorActionListener true
                 }
             }
+        }
+
+        binding.searchButton.setOnClickListener {
+            val state = binding.stockNameEditText.isVisible
+            if (state) binding.stockNameEditText.visibility = View.GONE
+            else binding.stockNameEditText.visibility = View.VISIBLE
         }
     }
 }
