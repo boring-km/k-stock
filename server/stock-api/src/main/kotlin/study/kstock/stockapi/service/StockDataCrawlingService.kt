@@ -9,12 +9,14 @@ import study.kstock.stockapi.domain.StockData
 import study.kstock.stockapi.domain.StockMarket
 import study.kstock.stockapi.domain.StockSymbol
 import java.math.BigDecimal
+import kotlin.jvm.Throws
 
 @Service
 class StockDataCrawlingService {
 
+    @Throws
     @Cacheable(cacheNames = ["search"], key = "#symbolString", cacheManager = "redisCacheManager")
-    fun searchStockData(symbolString: String): StockData? {
+    fun searchStockData(symbolString: String): StockData {
 
         // TODO
         //  1. 미국 주식 거래소 목록 강제로 박음
@@ -31,7 +33,7 @@ class StockDataCrawlingService {
                 break
             }
         }
-        if (stockDataElement.isEmpty()) return null
+        if (stockDataElement.isEmpty()) throw IllegalArgumentException()
         return getStockDataBy(stockDataElement[0], foundMarket)
     }
 
@@ -69,5 +71,18 @@ class StockDataCrawlingService {
             ),
             lastPrice, priceChange, percentChange
         )
+    }
+
+    fun searchStocks(texts: Array<String>): ArrayList<StockData> {
+        val result = ArrayList<StockData>()
+        for (text in texts) {
+            val searchedStockData = searchStockData(text)
+            try {
+                result.add(searchedStockData)
+            } catch (e: IllegalArgumentException) {
+                e.printStackTrace()
+            }
+        }
+        return result
     }
 }

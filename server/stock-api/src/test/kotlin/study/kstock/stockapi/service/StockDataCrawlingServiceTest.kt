@@ -7,6 +7,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import study.kstock.stockapi.domain.StockData
 
 @SpringBootTest
 internal class StockDataCrawlingServiceTest {
@@ -22,7 +23,7 @@ internal class StockDataCrawlingServiceTest {
         val symbol = "AEVA"
 
         // when
-        val result = stockDataCrawlingService.searchStockData(symbol)
+        val result: StockData = stockDataCrawlingService.searchStockData(symbol)
         logger.info("조회 결과: $result")
 
         // then
@@ -46,5 +47,16 @@ internal class StockDataCrawlingServiceTest {
 
         // then
         assertThat(timeTaken).isLessThan(3000)
+    }
+
+    @DisplayName("넷플릭스, 애플, 구글 주식을 같이 조회하는 테스트")
+    @Test
+    internal fun searchStocksTest() {
+        val values = arrayOf("NFLX", "AAPL", "GOOGL")
+
+        val result = stockDataCrawlingService.searchStocks(values)
+        result.forEach { stockData -> println(stockData.toString()) }
+
+        assertThat(result).isNotNull
     }
 }
