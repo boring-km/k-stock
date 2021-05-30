@@ -4,6 +4,6 @@
     <string name="stockName">Stock Name</string>
     <string name="currentPrice">Current Price</string>
     <string name="searchButtonDescription">주식 검색</string>
-    <string name="searchFavoriteButton">searchFavoriteButton</string>
+    <string name="searchInterestButton">searchInterestButton</string>
 
 </resources>
