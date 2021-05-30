@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
                 EditorInfo.IME_ACTION_SEARCH -> {
                     if (searchText.isEmpty()) {
                         Toast.makeText(applicationContext, "최근 검색 목록을 불러옵니다.", Toast.LENGTH_SHORT).show()
-                        // TODO SharedPreference 사용하기
+                        stockService.getSearchedStocks(service, binding)
                     } else
                         stockService.searchStock(service, searchText, binding)
                     return@setOnEditorActionListener true
@@ -64,5 +64,11 @@ class MainActivity : AppCompatActivity() {
             if (state) binding.stockNameEditText.visibility = View.GONE
             else binding.stockNameEditText.visibility = View.VISIBLE
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // 초기 화면 세팅
+        stockService.getSearchedStocks(service, binding)
     }
 }
