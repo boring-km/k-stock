@@ -66,9 +66,9 @@ class MainActivity : AppCompatActivity() {
                 EditorInfo.IME_ACTION_SEARCH -> {
                     if (searchText.isEmpty()) {
                         Toast.makeText(applicationContext, "최근 검색 종목을 조회합니다.", Toast.LENGTH_SHORT).show()
-                        stockService.getSearchedStocks(applicationContext, service, binding, searchName)
+                        stockService.getSearchedStocks(service, binding, searchName)
                     } else
-                        stockService.searchStock(applicationContext, service, searchText, binding)
+                        stockService.searchStock(service, searchText, binding)
                     return@setOnEditorActionListener true
                 }
                 else -> {
@@ -86,13 +86,13 @@ class MainActivity : AppCompatActivity() {
 
         binding.interestButton.setOnClickListener {
             Toast.makeText(applicationContext, "관심종목을 조회합니다.", Toast.LENGTH_SHORT).show()
-            stockService.getSearchedStocks(applicationContext, service, binding, interestName)
+            stockService.getSearchedStocks(service, binding, interestName)
         }
     }
 
     override fun onStart() {
         super.onStart()
         // 초기 화면 세팅
-        stockService.getSearchedStocks(applicationContext, service, binding, searchName)
+        stockService.getSearchedStocks(service, binding, searchName)
     }
 }

@@ -14,7 +14,6 @@ import javax.inject.Inject
 class KStockServiceImpl @Inject constructor() {
 
     fun searchStock(
-        context: Context,
         service: KStockService,
         searchText: String,
         binding: ActivityMainBinding
@@ -26,7 +25,7 @@ class KStockServiceImpl @Inject constructor() {
             ) {
                 if (response.isSuccessful) {
                     val data = response.body() as StockData
-                    val sharedPrefManager = SharedPrefManager(context, "searched")
+                    val sharedPrefManager = SharedPrefManager(binding.root.context, "searched")
                     sharedPrefManager.saveStringSet("data", data.stockSymbol.symbol)
 
                     binding.searchedStockRecyclerView.apply {
@@ -42,12 +41,11 @@ class KStockServiceImpl @Inject constructor() {
     }
 
     fun getSearchedStocks(
-        context: Context,
         service: KStockService,
         binding: ActivityMainBinding,
         dataName: String
     ) {
-        val sharedPrefManager = SharedPrefManager(context, dataName)
+        val sharedPrefManager = SharedPrefManager(binding.root.context, dataName)
         val dataArray = sharedPrefManager.findStringSet("data")!!.toTypedArray()
 
         service.getStocksBySymbols(StockNameArray(dataArray))
