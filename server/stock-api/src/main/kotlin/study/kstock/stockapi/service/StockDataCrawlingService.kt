@@ -37,7 +37,7 @@ class StockDataCrawlingService {
         return getStockDataBy(stockDataElement[0], foundMarket)
     }
 
-    fun getRecentStockDataListOf(market: String, start: Int): ArrayList<StockData>? {
+    fun getRecentStockDataListOf(market: String, start: Int): ArrayList<StockData> {
         val url = "https://finviz.com/screener.ashx?v=111&f=exch_${market}&r=${start}"
         val stockDataList = ArrayList<StockData>()
         val document = Jsoup.connect(url).get().body()
@@ -47,7 +47,7 @@ class StockDataCrawlingService {
         stockDataElements.addAll(parentsOne)
         stockDataElements.addAll(parentsTwo)
 
-        if (stockDataElements.isEmpty()) return null
+        if (stockDataElements.isEmpty()) return stockDataList
 
         for (stockDataElement in stockDataElements) {
             val stockData = getStockDataBy(stockDataElement, market)
