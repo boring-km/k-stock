@@ -10,5 +10,5 @@ local.properties
 .idea
 gradlew
 gradlew.bat
-gradle
+gradle/wrapper/gradle-wrapper.jar
 app/build
