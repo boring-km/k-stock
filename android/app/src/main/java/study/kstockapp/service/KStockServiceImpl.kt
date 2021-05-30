@@ -26,13 +26,8 @@ class KStockServiceImpl @Inject constructor() {
             ) {
                 if (response.isSuccessful) {
                     val data = response.body() as StockData
-                    val prefs = binding.root.context.getSharedPreferences("searched", Context.MODE_PRIVATE)
-                    val tempSet: MutableSet<String>? = prefs.getStringSet("data", HashSet<String>())
-                    tempSet!!.add(data.stockSymbol.symbol)
-
-                    val editor = prefs.edit()
-                    editor.putStringSet("data", tempSet)
-                    editor.apply()
+                    val sharedPrefManager = SharedPrefManager(binding.root.context, "searched")
+                    sharedPrefManager.saveStringSet("data", data.stockSymbol.symbol)
 
                     binding.searchedStockRecyclerView.apply {
                         (adapter as StockAdapter).add(data)
@@ -48,10 +43,12 @@ class KStockServiceImpl @Inject constructor() {
 
     fun getSearchedStocks(
         service: KStockService,
-        binding: ActivityMainBinding
+        binding: ActivityMainBinding,
+        dataName: String
     ) {
-        val prefs = binding.root.context.getSharedPreferences("searched", Context.MODE_PRIVATE)
-        val dataArray = prefs.getStringSet("data", HashSet<String>())!!.toTypedArray()
+        val sharedPrefManager = SharedPrefManager(binding.root.context, dataName)
+        val dataArray = sharedPrefManager.findStringSet("data")!!.toTypedArray()
+
         service.getStocksBySymbols(StockNameArray(dataArray))
             .enqueue(object : Callback<List<StockData>> {
                 override fun onResponse(
