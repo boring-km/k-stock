@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
     private var instance: Retrofit? = null
-    private const val BASE_URL = "http://192.168.35.3:8081/"
+    private const val BASE_URL = "http://ec2-52-78-210-6.ap-northeast-2.compute.amazonaws.com:8081/"
 
     fun getInstance(): Retrofit {
         if (instance == null) {
