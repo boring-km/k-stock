@@ -14,7 +14,7 @@ class GetStockDirectlyController {
     private lateinit var stockDataCrawlingService: StockDataCrawlingService
 
     @GetMapping("search/{symbol}")
-    fun getStockListBySymbol(@PathVariable symbol: String): ResponseEntity<StockData> {
+    fun searchStockBySymbol(@PathVariable symbol: String): ResponseEntity<StockData> {
         val result = stockDataCrawlingService.searchStockData(symbol)
         return ResponseFactory.createResponse(result)
     }
