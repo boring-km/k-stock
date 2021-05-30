@@ -1,6 +1,5 @@
 package study.kstockapp.service
 
-import android.content.Context
 import android.util.Log
 import retrofit2.Call
 import retrofit2.Callback

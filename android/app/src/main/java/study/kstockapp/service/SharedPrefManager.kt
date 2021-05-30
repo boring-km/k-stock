@@ -15,9 +15,12 @@ class SharedPrefManager(
 
     fun saveStringSet(key: String, name: String) {
         val tempSet: MutableSet<String>? = prefs.getStringSet(key, HashSet<String>())
-        tempSet!!.add(name)
+        val inputSet = HashSet<String>()
+        tempSet!!.forEach { item -> inputSet.add(item) }
+        inputSet.add(name)
         val editor = prefs.edit()
-        editor.putStringSet("data", tempSet)
+        editor.putStringSet(key, inputSet)
         editor.apply()
+        editor.commit()
     }
 }
