@@ -1,7 +1,9 @@
 <resources>
     <string name="app_name">K-StockApp</string>
     <string name="hint">Type Any Stock Name…</string>
-    <string name="stock_name_string">Stock Name</string>
-    <string name="current_price">Current Price</string>
+    <string name="stockName">Stock Name</string>
+    <string name="currentPrice">Current Price</string>
+    <string name="searchButtonDescription">주식 검색</string>
+    <string name="searchInterestButton">searchInterestButton</string>
 
 </resources>

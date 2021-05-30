@@ -1,44 +1,75 @@
 package study.kstockapp.service
 
+import android.content.Context
+import android.util.Log
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import study.kstockapp.StockAdapter
+import study.kstockapp.adapter.StockAdapter
 import study.kstockapp.databinding.ActivityMainBinding
 import study.kstockapp.domain.StockData
+import study.kstockapp.domain.StockNameArray
 import study.kstockapp.network.KStockService
 import javax.inject.Inject
 
 class KStockServiceImpl @Inject constructor() {
 
-    fun getStockListByMarketWithIndex (
+    fun searchStock(
         service: KStockService,
-        index: Int,
+        searchText: String,
         binding: ActivityMainBinding
     ) {
-        val market =
-            when (binding.spinnerStockMarket.selectedItem.toString()){
-                "NYSE" -> "nyse"
-                "NASDAQ" -> "nasd"
-                "AMEX" -> "amex"
-                else -> ""
-            }
-        service.getStockListByMarketWithIndex(market, index).enqueue(object : Callback<List<StockData>> {
+        service.getStockBySymbol(searchText).enqueue(object : Callback<StockData> {
             override fun onResponse(
-                call: Call<List<StockData>>,
-                response: Response<List<StockData>>
+                call: Call<StockData>,
+                response: Response<StockData>
             ) {
                 if (response.isSuccessful) {
-                    val responseList = response.body() as List<StockData>
-                    binding.recyclerviewSearchedStock.apply {
-                        (adapter as StockAdapter).addAll(responseList)
+                    val data = response.body() as StockData
+                    val sharedPrefManager = SharedPrefManager(binding.root.context, "searched")
+                    sharedPrefManager.saveStringSet("data", data.stockSymbol.symbol)
+
+                    binding.searchedStockRecyclerView.apply {
+                        (adapter as StockAdapter).add(data)
                     }
                 }
             }
 
-            override fun onFailure(call: Call<List<StockData>>, t: Throwable) {
-                println("Print Stack Trace : ${t.printStackTrace()}")
+            override fun onFailure(call: Call<StockData>, t: Throwable) {
+                t.printStackTrace()
             }
         })
+    }
+
+    fun getSearchedStocks(
+        service: KStockService,
+        binding: ActivityMainBinding,
+        dataName: String
+    ) {
+        val sharedPrefManager = SharedPrefManager(binding.root.context, dataName)
+        val dataArray = sharedPrefManager.findStringSet("data")!!.toTypedArray()
+
+        service.getStocksBySymbols(StockNameArray(dataArray))
+            .enqueue(object : Callback<List<StockData>> {
+                override fun onResponse(
+                    call: Call<List<StockData>>,
+                    response: Response<List<StockData>>
+                ) {
+                    if (response.isSuccessful) {
+                        val dataList = response.body() as List<StockData>
+                        binding.searchedStockRecyclerView.apply {
+                            (adapter as StockAdapter).addAll(dataList)
+                        }
+                    } else {
+                        Log.d("responseError", response.message())
+                    }
+                }
+
+                override fun onFailure(call: Call<List<StockData>>, t: Throwable) {
+                    t.printStackTrace()
+                }
+
+            })
+
     }
 }

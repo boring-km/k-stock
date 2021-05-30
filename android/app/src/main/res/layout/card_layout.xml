@@ -9,66 +9,72 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
-        android:theme="@style/WhiteText"
-        style="@style/StockItemCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent">
 
             <TextView
-                android:id="@+id/market_name"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
+                android:id="@+id/stock_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="60"
+                android:background="@android:color/transparent"
+                android:maxLines="3"
+                android:padding="5dp"
+                android:text="@{stockdata.stockSymbol.name}"
+                android:textAlignment="viewStart"
+                android:textColor="@color/colorPrimaryDark"
+                tools:text="United Microelectronics Corporation United Microelectronics Corporation" />
+
+            <TextView
+                android:id="@+id/current_price"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_horizontal|center_vertical"
-                android:text="@{stockdata.stockSymbol.stockMarket.market}"
-                tools:text="NASDAQ" />
+                android:maxLines="1"
+                android:minWidth="140dp"
+                android:padding="5dp"
+                android:text="@{String.valueOf(stockdata.lastPrice)}"
+                android:textColor="@{((stockdata.priceChange.compareTo(java.math.BigDecimal.ZERO) == 1) ? android.graphics.Color.rgb(232,15,15) : android.graphics.Color.rgb(13,49,237))}"
+                android:textSize="40sp"
+                tools:text="654.87" />
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:minWidth="65dp"
+                android:orientation="vertical"
+                android:padding="5dp">
 
                 <TextView
+                    android:id="@+id/changedValueText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:text="@string/stock_name_string" />
+                    android:maxLines="1"
+                    android:textAlignment="center"
+                    android:textSize="24sp"
+                    android:text="@{String.valueOf(stockdata.priceChange)}"
+                    android:textColor="@{((stockdata.priceChange.compareTo(java.math.BigDecimal.ZERO) == 1) ? android.graphics.Color.rgb(232,15,15) : android.graphics.Color.rgb(13,49,237))}"
+                    tools:text="2.45" />
 
                 <TextView
-                    android:id="@+id/stock_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:text="@{stockdata.stockSymbol.name}"
-                    tools:text="TSLA" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
+                    android:id="@+id/changedPercentText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:text="@string/current_price" />
-
-                <TextView
-                    android:id="@+id/current_price"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:text="@{String.valueOf(stockdata.lastPrice)}"
-                    tools:text="654.87" />
+                    android:maxLines="1"
+                    android:textAlignment="center"
+                    android:text="@{'('+String.valueOf(stockdata.percentChange)+'%'+')'}"
+                    android:textColor="@{((stockdata.priceChange.compareTo(java.math.BigDecimal.ZERO) == 1) ? android.graphics.Color.rgb(232,15,15) : android.graphics.Color.rgb(13,49,237))}"
+                    tools:text="(0.50%)" />
             </LinearLayout>
+
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

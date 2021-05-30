@@ -9,12 +9,14 @@ import study.kstock.stockapi.domain.StockData
 import study.kstock.stockapi.domain.StockMarket
 import study.kstock.stockapi.domain.StockSymbol
 import java.math.BigDecimal
+import kotlin.jvm.Throws
 
 @Service
 class StockDataCrawlingService {
 
+    @Throws
     @Cacheable(cacheNames = ["search"], key = "#symbolString", cacheManager = "redisCacheManager")
-    fun searchStockData(symbolString: String): StockData? {
+    fun searchStockData(symbolString: String): StockData {
 
         // TODO
         //  1. 미국 주식 거래소 목록 강제로 박음
@@ -31,11 +33,11 @@ class StockDataCrawlingService {
                 break
             }
         }
-        if (stockDataElement.isEmpty()) return null
+        if (stockDataElement.isEmpty()) throw IllegalArgumentException()
         return getStockDataBy(stockDataElement[0], foundMarket)
     }
 
-    fun getRecentStockDataListOf(market: String, start: Int): ArrayList<StockData>? {
+    fun getRecentStockDataListOf(market: String, start: Int): ArrayList<StockData> {
         val url = "https://finviz.com/screener.ashx?v=111&f=exch_${market}&r=${start}"
         val stockDataList = ArrayList<StockData>()
         val document = Jsoup.connect(url).get().body()
@@ -45,7 +47,7 @@ class StockDataCrawlingService {
         stockDataElements.addAll(parentsOne)
         stockDataElements.addAll(parentsTwo)
 
-        if (stockDataElements.isEmpty()) return null
+        if (stockDataElements.isEmpty()) return stockDataList
 
         for (stockDataElement in stockDataElements) {
             val stockData = getStockDataBy(stockDataElement, market)
@@ -69,5 +71,18 @@ class StockDataCrawlingService {
             ),
             lastPrice, priceChange, percentChange
         )
+    }
+
+    fun searchStocks(texts: Array<String>): ArrayList<StockData> {
+        val result = ArrayList<StockData>()
+        for (text in texts) {
+            val searchedStockData = searchStockData(text)
+            try {
+                result.add(searchedStockData)
+            } catch (e: IllegalArgumentException) {
+                e.printStackTrace()
+            }
+        }
+        return result
     }
 }
